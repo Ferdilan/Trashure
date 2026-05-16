@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MapPin, Weight, Clock, Search, Filter } from 'lucide-react';
+import { MapPin, Weight, Clock, Search, Filter, Image as ImageIcon } from 'lucide-react';
+import Link from 'next/link';
 
 export default function FeedPage() {
   interface ListingData {
@@ -15,6 +16,7 @@ export default function FeedPage() {
     user: { name: string };
     category: { name: string };
     createdAt: string;
+    images?: string[];
   }
 
   const [listings, setListings] = useState<ListingData[]>([]);
@@ -110,11 +112,19 @@ export default function FeedPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {listings.map((listing) => (
             <Card key={listing.id} className="overflow-hidden hover:border-primary/50 transition duration-300 group">
-              <div className="h-48 bg-muted relative">
-                {/* Image Placeholder */}
-                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-                  No Image Available
-                </div>
+              <div className="h-48 bg-muted relative overflow-hidden">
+                {listing.images && listing.images.length > 0 ? (
+                  <img 
+                    src={listing.images[0]} 
+                    alt={listing.title} 
+                    className="w-full h-full object-cover absolute inset-0 transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground opacity-50">
+                    <ImageIcon className="w-8 h-8 mb-2" />
+                    <span className="text-sm">Tanpa Foto</span>
+                  </div>
+                )}
                 <div className="absolute top-3 left-3 bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded-md shadow-sm">
                   {listing.category?.name || 'Kategori'}
                 </div>
@@ -139,9 +149,11 @@ export default function FeedPage() {
                     <span>{timeAgo(listing.createdAt)} oleh {listing.user?.name}</span>
                   </div>
                 </div>
-                <Button className="w-full">
-                  Berikan Penawaran
-                </Button>
+                <Link href={`/dashboard/listings/${listing.id}`}>
+                  <Button className="w-full">
+                    Lihat & Berikan Penawaran
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ))}

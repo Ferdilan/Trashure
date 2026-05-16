@@ -56,7 +56,7 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
   try {
     const user = req.user;
 
-    const dbUser = await prisma.user.findUnique({
+    let dbUser = await prisma.user.findUnique({
       where: { supabaseId: user.id },
       include: {
         wallet: true,
@@ -65,8 +65,22 @@ export const getProfile = async (req: AuthRequest, res: Response): Promise<void>
     });
 
     if (!dbUser) {
-      res.status(404).json({ status: 'error', message: 'User not found in database' });
-      return;
+      // Auto-sync jika profil belum ada saat diakses
+      dbUser = await prisma.user.create({
+        data: {
+          supabaseId: user.id,
+          email: user.email || `${user.id}@placeholder.com`,
+          name: user.email?.split('@')[0] || 'User Baru',
+          role: 'PEMILIK', // Default role
+          wallet: {
+            create: { balance: 0 }
+          }
+        },
+        include: {
+          wallet: true,
+          addresses: true
+        }
+      });
     }
 
     res.status(200).json({ status: 'success', data: dbUser });

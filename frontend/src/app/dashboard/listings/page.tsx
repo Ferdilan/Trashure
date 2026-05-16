@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, Clock, FileText, ChevronRight } from 'lucide-react';
+import { Plus, Clock, FileText, ChevronRight, Image as ImageIcon } from 'lucide-react';
 
 export default function MyListingsPage() {
   interface ListingData {
@@ -15,6 +15,7 @@ export default function MyListingsPage() {
     status: string;
     category?: { name: string };
     createdAt?: string;
+    images?: string[];
   }
 
   const [listings, setListings] = useState<ListingData[]>([]);
@@ -23,19 +24,19 @@ export default function MyListingsPage() {
   const fetchMyListings = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      
+
       // Asumsi backend mengambil berdasarkan user yg login karena requireAuth middleware
       // Di API getListings kita mungkin perlu memfilter berdasarkan user.id di controller
       // Untuk MVP kita abaikan jika belum ada filternya dan ambil secara umum (Mocking)
-      
-      const res = await fetch('http://localhost:5000/api/listings', {
+
+      const res = await fetch('http://localhost:5000/api/listings?mine=true', {
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });
       const data = await res.json();
-      
+
       if (data.status === 'success') {
         // Mock filter milik sendiri (frontend level)
-        setListings(data.data); 
+        setListings(data.data);
       }
     } catch (e) {
       console.error(e);
@@ -67,7 +68,7 @@ export default function MyListingsPage() {
 
       {loading ? (
         <div className="space-y-4">
-          {[1,2].map(i => (
+          {[1, 2].map(i => (
             <Card key={i} className="animate-pulse h-24 bg-muted" />
           ))}
         </div>
@@ -88,8 +89,19 @@ export default function MyListingsPage() {
             <Card key={listing.id} className="overflow-hidden hover:border-primary/40 transition">
               <CardContent className="p-0">
                 <div className="flex flex-col sm:flex-row items-stretch">
-                  <div className="w-full sm:w-40 h-32 sm:h-auto bg-muted shrink-0 flex items-center justify-center text-xs text-muted-foreground">
-                    Image
+                  <div className="w-full sm:w-40 h-32 sm:h-auto bg-muted shrink-0 flex items-center justify-center text-xs text-muted-foreground relative overflow-hidden">
+                    {listing.images && listing.images.length > 0 ? (
+                      <img
+                        src={listing.images[0]}
+                        alt={listing.title}
+                        className="w-full h-full object-cover absolute inset-0"
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <ImageIcon className="w-6 h-6 mb-1 opacity-40" />
+                        <span>Tanpa Foto</span>
+                      </div>
+                    )}
                   </div>
                   <div className="p-5 flex-1 flex flex-col justify-between">
                     <div className="flex justify-between items-start gap-4">
@@ -107,22 +119,24 @@ export default function MyListingsPage() {
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
                           ${listing.status === 'TERSEDIA' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' :
                             listing.status === 'PENAWARAN' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400' :
-                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                              'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                           }
                         `}>
                           {listing.status}
                         </span>
                       </div>
                     </div>
-                    
+
                     <div className="mt-4 flex items-center justify-between border-t pt-4">
                       <div className="text-sm text-muted-foreground flex items-center gap-1.5">
                         <Clock className="h-4 w-4" />
                         Dibuat {listing.createdAt ? new Date(listing.createdAt).toLocaleDateString('id-ID') : 'Tidak diketahui'}
                       </div>
-                      <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                        Lihat Detail <ChevronRight className="h-4 w-4" />
-                      </Button>
+                      <Link href={`/dashboard/listings/${listing.id}`}>
+                        <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                          Lihat Detail <ChevronRight className="h-4 w-4" />
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>

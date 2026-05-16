@@ -10,14 +10,50 @@ export const createListing = async (req: AuthRequest, res: Response): Promise<vo
       return;
     }
 
-    // Ambil userId dari database
-    const dbUser = await prisma.user.findUnique({ where: { supabaseId: user.id } });
+    // Ambil userId dari database, jika tidak ada (belum sync), buat otomatis
+    let dbUser = await prisma.user.findUnique({ where: { supabaseId: user.id } });
     if (!dbUser) {
-      res.status(404).json({ status: 'error', message: 'User not found in DB' });
-      return;
+      dbUser = await prisma.user.create({
+        data: {
+          supabaseId: user.id,
+          email: user.email || `${user.id}@placeholder.com`,
+          name: user.email?.split('@')[0] || 'User',
+          role: 'PEMILIK',
+        }
+      });
+      // Buat wallet kosong untuk user baru
+      await prisma.wallet.create({
+        data: { userId: dbUser.id, balance: 0 }
+      });
     }
 
     const { categoryId, title, description, estimatedWeight, latitude, longitude, images } = req.body;
+
+    // Pastikan kategori sampah ada di database. Jika dari mock data, berikan nama yang sesuai.
+    const mockCategoryNames: Record<string, string> = {
+      '1': 'Kertas & Kardus',
+      '2': 'Plastik (Botol, Gelas)',
+      '3': 'Besi & Logam',
+      '4': 'Elektronik (E-Waste)'
+    };
+    const categoryName = mockCategoryNames[categoryId] || `Kategori Umum (${categoryId})`;
+
+    let dbCategory = await prisma.wasteCategory.findUnique({ where: { id: categoryId } });
+    if (!dbCategory) {
+      dbCategory = await prisma.wasteCategory.create({
+        data: {
+          id: categoryId,
+          name: categoryName,
+          description: 'Kategori terbuat dari sistem (fallback)',
+        }
+      });
+    } else if (dbCategory.name.startsWith('Kategori ')) {
+      // Jika sebelumnya sudah terlanjur terbuat dengan nama "Kategori 1", perbarui namanya
+      dbCategory = await prisma.wasteCategory.update({
+        where: { id: categoryId },
+        data: { name: categoryName }
+      });
+    }
 
     const newListing = await prisma.listing.create({
       data: {
@@ -42,12 +78,22 @@ export const createListing = async (req: AuthRequest, res: Response): Promise<vo
 
 export const getListings = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    // Bisa tambahkan logic query param (radius, category) nanti
-    const { categoryId, status } = req.query;
+    const user = req.user;
+    let dbUser = null;
+    if (user) {
+      dbUser = await prisma.user.findUnique({ where: { supabaseId: user.id } });
+    }
+
+    const { categoryId, status, mine } = req.query;
 
     const whereClause: any = {};
     if (categoryId) whereClause.categoryId = String(categoryId);
     if (status) whereClause.status = String(status);
+    
+    // Jika mine=true, filter hanya listing milik user yang sedang login
+    if (mine === 'true' && dbUser) {
+      whereClause.userId = dbUser.id;
+    }
 
     const listings = await prisma.listing.findMany({
       where: whereClause,
