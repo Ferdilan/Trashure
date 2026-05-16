@@ -2,7 +2,7 @@
 
 Berdasarkan dokumen Product Requirements Document (PRD) dan arsitektur yang telah dijabarkan, berikut adalah rencana implementasi langkah demi langkah untuk membangun platform Trashure. Pengembangan dibagi menjadi beberapa fase terstruktur (Agile/Iterative) agar MVP (Minimum Viable Product) dapat dirilis lebih cepat dan fitur tambahan dapat disempurnakan pada fase berikutnya.
 
-## Fase 1: Setup & Infrastruktur (Minggu 1)
+## Fase 1: Setup & Infrastruktur
 Fokus pada inisialisasi proyek, pengaturan arsitektur dasar, dan penyusunan skema database.
 
 *   **1.1 Inisialisasi Proyek**
@@ -17,7 +17,7 @@ Fokus pada inisialisasi proyek, pengaturan arsitektur dasar, dan penyusunan skem
     *   Setup Supabase Storage (atau AWS S3) untuk menyimpan aset gambar (KTP, foto sampah, bukti timbangan).
     *   Konfigurasi environment variables (.env) untuk dev, staging, dan production.
 
-## Fase 2: Backend Development & Core APIs (Minggu 2 - 3)
+## Fase 2: Backend Development & Core APIs
 Membangun fondasi logika bisnis, API endpoints, dan integrasi database.
 
 *   **2.1 Manajemen Pengguna (Users & Auth)**
@@ -34,7 +34,7 @@ Membangun fondasi logika bisnis, API endpoints, dan integrasi database.
 *   **2.4 Integrasi Wallet Sederhana**
     *   API untuk mutasi saldo `wallets` (Top up, pemotongan saat transaksi, penarikan dana).
 
-## Fase 3: Frontend Development (Core Features) (Minggu 4 - 5)
+## Fase 3: Frontend Development (Core Features) 
 Mengembangkan antarmuka pengguna untuk dua role utama: Pemilik Sampah dan Pengepul.
 
 *   **3.1 Autentikasi & Profil (Semua Role)**
@@ -52,7 +52,7 @@ Mengembangkan antarmuka pengguna untuk dua role utama: Pemilik Sampah dan Pengep
     *   PWA/Mobile view untuk Pengepul: Form Verifikasi Lapangan (input berat asli, unggah foto bukti timbangan).
     *   Flow persetujuan perubahan harga (Jika berat/jenis berbeda dari deskripsi awal).
 
-## Fase 4: Fitur Realtime & Komunikasi (Minggu 6)
+## Fase 4: Fitur Realtime & Komunikasi
 Menambahkan pengalaman yang dinamis untuk negosiasi dan notifikasi.
 
 *   **4.1 Notifikasi Realtime**
@@ -63,7 +63,7 @@ Menambahkan pengalaman yang dinamis untuk negosiasi dan notifikasi.
 *   **4.3 Tracking Pickup Sederhana**
     *   Update status secara live. Pemilik sampah bisa melihat bahwa status telah berubah menjadi "On the Way" atau "Tiba di lokasi".
 
-## Fase 5: Admin Dashboard & Penyempurnaan (Minggu 7)
+## Fase 5: Admin Dashboard & Penyempurnaan 
 Membangun alat untuk mengelola platform secara mandiri.
 
 *   **5.1 Admin Dashboard**
@@ -74,7 +74,7 @@ Membangun alat untuk mengelola platform secara mandiri.
     *   Halaman rekonsiliasi pembayaran dan pencairan dana (Withdrawal approval).
     *   Tampilan grafik statistik dasar (Volume sampah, Total Transaksi, Pendapatan Platform).
 
-## Fase 6: QA, UAT, dan Deployment (Minggu 8)
+## Fase 6: QA, UAT, dan Deployment
 Memastikan stabilitas dan meluncurkan sistem ke production.
 
 *   **6.1 Testing**
@@ -87,8 +87,3 @@ Memastikan stabilitas dan meluncurkan sistem ke production.
     *   Deploy Backend ke platform seperti Render, Railway, atau DigitalOcean App Platform.
     *   Setup CI/CD pipeline menggunakan GitHub Actions.
     *   Pemantauan error (contoh integrasi Sentry).
-
----
-
-### Langkah Selanjutnya (Next Steps)
-Jika rencana ini sesuai, kita dapat memulai **Fase 1**. Apakah Anda ingin saya langsung membuatkan kerangka project (scaffolding) untuk Next.js dan Node.js di direktori ini?

@@ -16,6 +16,10 @@ app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'success', message: 'Trashure API is running' });
 });
 
+// API Routes
+import routes from './routes';
+app.use('/api', routes);
+
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
