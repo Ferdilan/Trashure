@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  PEMILIK
+  PENGEPUL
+  ADMIN
+}
+
+enum ListingStatus {
+  TERSEDIA
+  PENAWARAN
+  TRANSAKSI
+  SELESAI
+  BATAL
+}
+
+enum OfferStatus {
+  MENUNGGU
+  DITERIMA
+  DITOLAK
+}
+
+enum TransactionStatus {
+  DEAL
+  JADWAL_PICKUP
+  TRANSIT
+  VERIFIKASI
+  SELESAI
+  BATAL
+}
+
+model User {
+  id           String   @id @default(uuid())
+  supabaseId   String   @unique
+  name         String
+  email        String   @unique
+  phoneNumber  String?
+  role         Role
+  avatarUrl    String?
+  ktpUrl       String?
+  isVerified   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  addresses    Address[]
+  listings     Listing[]
+  offers       Offer[]
+  transactions Transaction[] @relation("TransactionPengepul")
+  wallet       Wallet?
+}
+
+model Address {
+  id           String   @id @default(uuid())
+  userId       String
+  label        String // e.g., Rumah, Kantor
+  fullAddress  String
+  latitude     Float
+  longitude    Float
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WasteCategory {
+  id           String   @id @default(uuid())
+  name         String   @unique // e.g., Kertas, Plastik, Logam
+  description  String?
+  basePrice    Float? // Harga dasar per kg (opsional/panduan)
+  iconUrl      String?
+
+  listings     Listing[]
+}
+
+model Listing {
+  id            String        @id @default(uuid())
+  userId        String
+  categoryId    String
+  title         String
+  description   String?
+  estimatedWeight Float       // in kg
+  images        String[]
+  status        ListingStatus @default(TERSEDIA)
+  latitude      Float?
+  longitude     Float?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      WasteCategory @relation(fields: [categoryId], references: [id])
+  offers        Offer[]
+  transaction   Transaction?
+}
+
+model Offer {
+  id           String      @id @default(uuid())
+  listingId    String
+  pengepulId   String
+  pricePerKg   Float
+  message      String?
+  status       OfferStatus @default(MENUNGGU)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  listing      Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  pengepul     User        @relation(fields: [pengepulId], references: [id], onDelete: Cascade)
+}
+
+model Transaction {
+  id           String            @id @default(uuid())
+  listingId    String            @unique
+  pengepulId   String
+  finalWeight  Float?
+  totalPrice   Float?
+  status       TransactionStatus @default(DEAL)
+  pickupDate   DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  listing      Listing           @relation(fields: [listingId], references: [id])
+  pengepul     User              @relation("TransactionPengepul", fields: [pengepulId], references: [id])
+}
+
+model Wallet {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  balance      Float    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
