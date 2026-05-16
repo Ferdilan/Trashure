@@ -7,12 +7,22 @@ import { Button } from '@/components/ui/button';
 import { MapPin, Phone, CheckCircle2, Navigation } from 'lucide-react';
 
 export default function PickupManagementPage() {
-  const [pickups, setPickups] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  interface PickupData {
+    id: string;
+    listing?: {
+      title: string;
+      user?: {
+        name: string;
+        phoneNumber?: string;
+      }
+    };
+    status: string;
+    totalPrice?: number;
+    updatedAt?: string;
+  }
 
-  useEffect(() => {
-    fetchPickups();
-  }, []);
+  const [pickups, setPickups] = useState<PickupData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchPickups = async () => {
     try {
@@ -25,7 +35,7 @@ export default function PickupManagementPage() {
       
       if (data.status === 'success') {
         // Filter out completed ones, keep only active pickups
-        const activePickups = data.data.filter((t: any) => t.status !== 'SELESAI' && t.status !== 'BATAL');
+        const activePickups = data.data.filter((t: PickupData) => t.status !== 'SELESAI' && t.status !== 'BATAL');
         setPickups(activePickups);
       }
     } catch (e) {
@@ -46,6 +56,12 @@ export default function PickupManagementPage() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchPickups();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     try {

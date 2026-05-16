@@ -53,8 +53,9 @@ export default function RegisterPage() {
         }
 
         router.push('/dashboard');
-      } catch (err: any) {
-        setError(err.message || 'Terjadi kesalahan saat menyimpan profil');
+      } catch (err: unknown) {
+        const e = err as Error;
+        setError(e.message || 'Terjadi kesalahan saat menyimpan profil');
       }
     }
     

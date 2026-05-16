@@ -12,13 +12,20 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
-  const [userProfile, setUserProfile] = useState<any>(null);
-  const [notifications, setNotifications] = useState<any[]>([]);
-  const [socket, setSocket] = useState<Socket | null>(null);
+  interface UserProfile {
+    id: string;
+    name: string;
+    role: string;
+  }
 
-  useEffect(() => {
-    checkUser();
-  }, []);
+  interface NotificationData {
+    title: string;
+    body: string;
+  }
+
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [notifications, setNotifications] = useState<NotificationData[]>([]);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   const checkUser = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -43,7 +50,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           newSocket.emit('join', data.data.id);
         });
 
-        newSocket.on('notification', (msg) => {
+        newSocket.on('notification', (msg: NotificationData) => {
           setNotifications(prev => [msg, ...prev]);
           // You could also trigger a Toast here
         });
@@ -55,6 +62,12 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    checkUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     return () => {

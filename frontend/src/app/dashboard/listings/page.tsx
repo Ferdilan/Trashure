@@ -8,12 +8,17 @@ import { Button } from '@/components/ui/button';
 import { Plus, Clock, FileText, ChevronRight } from 'lucide-react';
 
 export default function MyListingsPage() {
-  const [listings, setListings] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  interface ListingData {
+    id: string;
+    title: string;
+    estimatedWeight: number;
+    status: string;
+    category?: { name: string };
+    createdAt?: string;
+  }
 
-  useEffect(() => {
-    fetchMyListings();
-  }, []);
+  const [listings, setListings] = useState<ListingData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchMyListings = async () => {
     try {
@@ -39,6 +44,12 @@ export default function MyListingsPage() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchMyListings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -107,7 +118,7 @@ export default function MyListingsPage() {
                     <div className="mt-4 flex items-center justify-between border-t pt-4">
                       <div className="text-sm text-muted-foreground flex items-center gap-1.5">
                         <Clock className="h-4 w-4" />
-                        Dibuat {new Date(listing.createdAt || Date.now()).toLocaleDateString('id-ID')}
+                        Dibuat {listing.createdAt ? new Date(listing.createdAt).toLocaleDateString('id-ID') : 'Tidak diketahui'}
                       </div>
                       <Button variant="ghost" size="sm" className="gap-1 text-primary">
                         Lihat Detail <ChevronRight className="h-4 w-4" />

@@ -13,31 +13,31 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    checkAdmin();
-  }, []);
-
-  const checkAdmin = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      router.push('/login');
-      return;
-    }
-
-    try {
-      const res = await fetch('http://localhost:5000/api/users/profile', {
-        headers: { 'Authorization': `Bearer ${session.access_token}` }
-      });
-      const data = await res.json();
-      if (data.status !== 'success' || data.data.role !== 'ADMIN') {
-        router.push('/dashboard'); // Kick non-admins back to regular dashboard
+    const checkAdmin = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        router.push('/login');
         return;
       }
-    } catch (e) {
-      console.error(e);
-      router.push('/');
-    }
-    setLoading(false);
-  };
+
+      try {
+        const res = await fetch('http://localhost:5000/api/users/profile', {
+          headers: { 'Authorization': `Bearer ${session.access_token}` }
+        });
+        const data = await res.json();
+        if (data.status !== 'success' || data.data.role !== 'ADMIN') {
+          router.push('/dashboard'); // Kick non-admins back to regular dashboard
+          return;
+        }
+      } catch (e) {
+        console.error(e);
+        router.push('/');
+      }
+      setLoading(false);
+    };
+
+    checkAdmin();
+  }, [router]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

@@ -2,17 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MapPin, Weight, Clock, Search, Filter } from 'lucide-react';
 
 export default function FeedPage() {
-  const [listings, setListings] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  interface ListingData {
+    id: string;
+    title: string;
+    estimatedWeight: number;
+    status: string;
+    user: { name: string };
+    category: { name: string };
+    createdAt: string;
+  }
 
-  useEffect(() => {
-    fetchFeed();
-  }, []);
+  const [listings, setListings] = useState<ListingData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchFeed = async () => {
     try {
@@ -51,6 +57,12 @@ export default function FeedPage() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchFeed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const timeAgo = (dateStr: string) => {
     const diff = Math.floor((new Date().getTime() - new Date(dateStr).getTime()) / 60000);

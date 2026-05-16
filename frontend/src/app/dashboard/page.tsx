@@ -7,7 +7,15 @@ import { TrendingUp, Package, Coins, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function DashboardPage() {
-  const [profile, setProfile] = useState<any>(null);
+  interface UserProfile {
+    name: string;
+    role: string;
+    wallet?: {
+      balance: number;
+    };
+  }
+
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

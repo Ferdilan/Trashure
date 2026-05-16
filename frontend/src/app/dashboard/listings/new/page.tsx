@@ -7,8 +7,13 @@ import { Button } from '@/components/ui/button';
 import { ImagePlus, MapPin, Loader2 } from 'lucide-react';
 
 export default function CreateListingPage() {
+  interface CategoryData {
+    id: string;
+    name: string;
+  }
+
   const router = useRouter();
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<CategoryData[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -17,10 +22,6 @@ export default function CreateListingPage() {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [estimatedWeight, setEstimatedWeight] = useState('');
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   const fetchCategories = async () => {
     try {
@@ -48,6 +49,12 @@ export default function CreateListingPage() {
       ]);
     }
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,8 +84,9 @@ export default function CreateListingPage() {
       if (!res.ok) throw new Error('Gagal membuat listing');
       
       router.push('/dashboard/listings');
-    } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan sistem');
+    } catch (err: unknown) {
+      const e = err as Error;
+      setError(e.message || 'Terjadi kesalahan sistem');
       setLoading(false);
     }
   };

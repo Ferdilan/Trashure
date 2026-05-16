@@ -6,12 +6,16 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, XCircle } from 'lucide-react';
 
 export default function AdminUsersPage() {
-  const [users, setUsers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  interface UserData {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    isVerified: boolean;
+  }
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  const [users, setUsers] = useState<UserData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchUsers = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -30,6 +34,12 @@ export default function AdminUsersPage() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchUsers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const verifyUser = async (id: string, isVerified: boolean) => {
     const { data: { session } } = await supabase.auth.getSession();

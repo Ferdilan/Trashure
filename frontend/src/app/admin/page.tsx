@@ -6,7 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Activity, Scale, DollarSign } from 'lucide-react';
 
 export default function AdminDashboardPage() {
-  const [stats, setStats] = useState<any>({
+  interface StatsData {
+    totalUsers: number;
+    totalTransactions: number;
+    totalVolume: number;
+    totalRevenue: number;
+  }
+
+  const [stats, setStats] = useState<StatsData>({
     totalUsers: 0,
     totalTransactions: 0,
     totalVolume: 0,
@@ -14,25 +21,25 @@ export default function AdminDashboardPage() {
   });
 
   useEffect(() => {
+    const fetchStats = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      try {
+        const res = await fetch('http://localhost:5000/api/admin/stats', {
+          headers: { 'Authorization': `Bearer ${session.access_token}` }
+        });
+        const data = await res.json();
+        if (data.status === 'success') {
+          setStats(data.data);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
     fetchStats();
   }, []);
-
-  const fetchStats = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
-
-    try {
-      const res = await fetch('http://localhost:5000/api/admin/stats', {
-        headers: { 'Authorization': `Bearer ${session.access_token}` }
-      });
-      const data = await res.json();
-      if (data.status === 'success') {
-        setStats(data.data);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   return (
     <div className="space-y-6 animate-in fade-in">

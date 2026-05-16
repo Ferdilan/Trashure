@@ -9,17 +9,26 @@ import { Button } from '@/components/ui/button';
 
 export default function ChatPage() {
   const { transactionId } = useParams();
-  const [messages, setMessages] = useState<any[]>([]);
+  interface UserProfile {
+    id: string;
+    name: string;
+  }
+
+  interface ChatMessage {
+    id?: string;
+    transactionId: string;
+    senderId: string;
+    receiverId: string;
+    content: string;
+    createdAt: string;
+  }
+
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [userProfile, setUserProfile] = useState<any>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [socket, setSocket] = useState<Socket | null>(null);
   const [receiverId, setReceiverId] = useState<string>(''); // Simplified
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    initChat();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transactionId]);
 
   const initChat = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -41,7 +50,7 @@ export default function ChatPage() {
         newSocket.emit('join', profData.data.id);
       });
 
-      newSocket.on('receive_message', (msg) => {
+      newSocket.on('receive_message', (msg: ChatMessage) => {
         if (msg.transactionId === transactionId) {
           setMessages(prev => [...prev, msg]);
         }
@@ -59,7 +68,7 @@ export default function ChatPage() {
         
         // Find receiver ID (assuming it's either the transaction.pengepulId or transaction.listing.userId)
         // For MVP, we extract the other person from the messages history if exists
-        const otherMsg = msgData.data.find((m: any) => m.senderId !== profData.data.id);
+        const otherMsg = msgData.data.find((m: ChatMessage) => m.senderId !== profData.data.id);
         if (otherMsg) {
           setReceiverId(otherMsg.senderId);
         } else {
@@ -73,6 +82,12 @@ export default function ChatPage() {
       console.error(e);
     }
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    initChat();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transactionId]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
