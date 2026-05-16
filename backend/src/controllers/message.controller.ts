@@ -7,7 +7,7 @@ export const getMessages = async (req: AuthRequest, res: Response): Promise<void
     const { transactionId } = req.params;
     
     const messages = await prisma.message.findMany({
-      where: { transactionId },
+      where: { transactionId: transactionId as string },
       orderBy: { createdAt: 'asc' },
       include: {
         sender: { select: { id: true, name: true, role: true } }

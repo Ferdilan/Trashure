@@ -72,7 +72,7 @@ export const verifyUser = async (req: AuthRequest, res: Response): Promise<void>
     const { isVerified } = req.body; // true or false
 
     const updatedUser = await prisma.user.update({
-      where: { id },
+      where: { id: id as string },
       data: { isVerified: Boolean(isVerified) }
     });
 
