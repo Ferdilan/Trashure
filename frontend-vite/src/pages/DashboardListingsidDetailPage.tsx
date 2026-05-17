@@ -248,6 +248,7 @@ export default function ListingDetailPage() {
   };
 
   const handleSetSchedule = async () => {
+    if (!transaction) return;
     if (!pickupDate || !pickupTime) return alert('Pilih tanggal dan waktu jemput');
     const combinedDate = new Date(`${pickupDate}T${pickupTime}`);
     
