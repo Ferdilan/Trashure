@@ -2,6 +2,7 @@ import { Response } from 'express';
 import prisma from '../config/database';
 import { AuthRequest } from '../middlewares/auth.middleware';
 import { getIo } from '../config/socket';
+import { sendWhatsAppMessage } from '../services/whatsapp.service';
 
 export const getTransactions = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -42,21 +43,26 @@ export const getTransactions = async (req: AuthRequest, res: Response): Promise<
 export const updateTransactionStatus = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { status, finalWeight, totalPrice } = req.body;
+    const { status, finalWeight, totalPrice, pickupDate } = req.body;
     // status = JADWAL_PICKUP, TRANSIT, VERIFIKASI, SELESAI, BATAL
 
     // Untuk demo MVP, tidak dilakukan validasi strict role.
     // Asumsinya Pengepul / Admin bisa update status ini.
     
-    const updateData: any = { status };
+    const updateData: any = {};
+    if (status) updateData.status = status;
     if (finalWeight) updateData.finalWeight = parseFloat(finalWeight);
     if (totalPrice) updateData.totalPrice = parseFloat(totalPrice);
+    if (pickupDate) updateData.pickupDate = new Date(pickupDate);
     if (status === 'SELESAI') updateData.completedAt = new Date();
 
     const transaction = await prisma.transaction.update({
       where: { id: id as string },
       data: updateData,
-      include: { listing: { select: { userId: true, title: true } } }
+      include: { 
+        listing: { include: { user: true } },
+        pengepul: true
+      }
     });
 
     if (status === 'SELESAI') {
@@ -64,9 +70,29 @@ export const updateTransactionStatus = async (req: AuthRequest, res: Response): 
         where: { id: transaction.listingId },
         data: { status: 'SELESAI' }
       });
+
+      if (totalPrice) {
+        const wallet = await prisma.wallet.findUnique({
+          where: { userId: transaction.listing.userId }
+        });
+        
+        if (wallet) {
+          await prisma.wallet.update({
+            where: { userId: transaction.listing.userId },
+            data: { balance: wallet.balance + parseFloat(totalPrice) }
+          });
+        } else {
+          await prisma.wallet.create({
+            data: {
+              userId: transaction.listing.userId,
+              balance: parseFloat(totalPrice)
+            }
+          });
+        }
+      }
     }
 
-    // Notify Pemilik
+    // Notify Pemilik via Socket
     const io = getIo();
     io.to(transaction.listing.userId).emit('notification', {
       title: 'Status Pickup Berubah',
@@ -74,9 +100,79 @@ export const updateTransactionStatus = async (req: AuthRequest, res: Response): 
       type: 'TRANSACTION_UPDATED'
     });
 
+    // Notify Pemilik via WhatsApp
+    if (transaction.listing.user.phoneNumber) {
+      let waMessage = '';
+      if (status === 'TRANSIT') {
+        waMessage = `*[Trashure]* Bersiaplah ${transaction.listing.user.name}!\nPengepul (${transaction.pengepul.name}) sedang *ON THE WAY* menuju lokasi Anda untuk menjemput sampah "${transaction.listing.title}".`;
+      } else if (status === 'SELESAI') {
+        waMessage = `*[Trashure]* Transaksi Selesai!\nSampah "${transaction.listing.title}" telah berhasil diangkut. Saldo Wallet Anda telah bertambah senilai *Rp ${totalPrice}*. Terima kasih telah menjaga lingkungan bersama Trashure!`;
+      } else if (pickupDate) {
+        waMessage = `*[Trashure]* Update Jadwal!\nJadwal penjemputan untuk "${transaction.listing.title}" telah disetel pada *${new Date(pickupDate).toLocaleString('id-ID')}*.`;
+      }
+
+      if (waMessage) {
+        await sendWhatsAppMessage(transaction.listing.user.phoneNumber, waMessage);
+      }
+    }
+
     res.status(200).json({ status: 'success', data: transaction });
   } catch (error) {
     console.error('Error updating transaction:', error);
     res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  }
+};
+
+const midtransClient = require('midtrans-client');
+
+export const createPaymentToken = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { finalWeight, totalPrice } = req.body;
+
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: id as string },
+      include: { 
+        pengepul: true,
+        listing: { include: { user: true } }
+      }
+    });
+
+    if (!transaction) {
+      res.status(404).json({ status: 'error', message: 'Transaction not found' });
+      return;
+    }
+
+    // Initialize Midtrans Snap
+    const snap = new midtransClient.Snap({
+      isProduction: false,
+      serverKey: process.env.MIDTRANS_SERVER_KEY || '',
+      clientKey: process.env.MIDTRANS_CLIENT_KEY || ''
+    });
+
+    const parameter = {
+      transaction_details: {
+        order_id: `TRX-${transaction.id.substring(0, 8)}-${Date.now()}`,
+        gross_amount: Math.round(totalPrice)
+      },
+      customer_details: {
+        first_name: transaction.pengepul.name,
+        email: transaction.pengepul.email || 'pengepul@trashure.com',
+        phone: transaction.pengepul.phoneNumber || '08123456789'
+      }
+    };
+
+    const snapToken = await snap.createTransaction(parameter);
+
+    // Update berat akhir terlebih dahulu
+    await prisma.transaction.update({
+      where: { id: id as string },
+      data: { finalWeight: parseFloat(finalWeight), totalPrice: parseFloat(totalPrice) }
+    });
+
+    res.status(200).json({ status: 'success', data: { token: snapToken.token } });
+  } catch (error: any) {
+    console.error('Error creating payment token:', error);
+    res.status(500).json({ status: 'error', message: error.message || 'Failed to create payment token' });
   }
 };

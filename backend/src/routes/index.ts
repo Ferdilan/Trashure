@@ -6,6 +6,7 @@ import offerRoutes from './offer.routes';
 import transactionRoutes from './transaction.routes';
 import messageRoutes from './message.routes';
 import adminRoutes from './admin.routes';
+import chatRoutes from './chat.routes';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/offers', offerRoutes);
 router.use('/transactions', transactionRoutes);
 router.use('/messages', messageRoutes);
 router.use('/admin', adminRoutes);
+router.use('/chats', chatRoutes);
 
 export default router;

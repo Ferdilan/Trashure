@@ -8,3 +8,9 @@ build/
 .next/
 *.log
 .DS_Store
+
+# WhatsApp Web.js session cache & auth
+.wwebjs_auth/
+.wwebjs_cache/
+backend/.wwebjs_auth/
+backend/.wwebjs_cache/

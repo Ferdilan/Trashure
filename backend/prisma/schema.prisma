@@ -89,6 +89,7 @@ model Listing {
   title         String
   description   String?
   estimatedWeight Float       // in kg
+  expectedPrice   Float?      // in Rp/kg
   images        String[]
   status        ListingStatus @default(TERSEDIA)
   latitude      Float?
