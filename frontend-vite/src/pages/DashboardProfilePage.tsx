@@ -56,14 +56,16 @@ export default function ProfilePage() {
       } else {
         throw new Error(json.message || 'Gagal memuat profil');
       }
-    } catch (err: any) {
-      setError(err.message || 'Terjadi kesalahan');
+    } catch (err: unknown) {
+      const errorVal = err as Error;
+      setError(errorVal.message || 'Terjadi kesalahan');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchProfile();
   }, []);
 
@@ -83,8 +85,9 @@ export default function ProfilePage() {
       if (!res.ok) throw new Error((data?.message) || `HTTP Error ${res.status}`);
       setIsEditProfileOpen(false);
       fetchProfile();
-    } catch (err: any) {
-      alert('Error Edit Profil: ' + err.message);
+    } catch (err: unknown) {
+      const errorVal = err as Error;
+      alert('Error Edit Profil: ' + errorVal.message);
     }
   };
 
@@ -105,8 +108,9 @@ export default function ProfilePage() {
       setIsAddAddressOpen(false);
       setAddrFull('');
       fetchProfile();
-    } catch (err: any) {
-      alert('Error Tambah Alamat: ' + err.message);
+    } catch (err: unknown) {
+      const errorVal = err as Error;
+      alert('Error Tambah Alamat: ' + errorVal.message);
     }
   };
 

@@ -64,7 +64,7 @@ export default function MyListingsPage() {
       try {
         data = await res.json();
       } catch (parseErr) {
-        throw new Error(`HTTP Error ${res.status}: Server tidak mengembalikan format JSON.`);
+        throw new Error(`HTTP Error ${res.status}: Server tidak mengembalikan format JSON.`, { cause: parseErr });
       }
 
       if (res.ok) {
@@ -73,9 +73,10 @@ export default function MyListingsPage() {
       } else {
         alert(data?.message || 'Gagal menghapus listing');
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e);
-      alert('Gagal Menghapus Listing: ' + e.message);
+      const err = e as Error;
+      alert('Gagal Menghapus Listing: ' + err.message);
     }
   };
 

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Package, MapPin, Calendar, Clock, ChevronRight, User } from 'lucide-react';
+import { RefreshCw, Package, Calendar, Clock, ChevronRight, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface TransactionData {
@@ -44,9 +44,10 @@ export default function TransactionsPage() {
       } else {
         throw new Error(json.message || 'Gagal memuat transaksi');
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || 'Terjadi kesalahan jaringan');
+      const errorVal = err as Error;
+      setError(errorVal.message || 'Terjadi kesalahan jaringan');
       // Fallback data simulasi jika API belum tersedia penuh
       setTransactions([
         {
@@ -74,6 +75,7 @@ export default function TransactionsPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchTransactions();
   }, []);
 

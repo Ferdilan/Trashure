@@ -18,6 +18,21 @@ interface HistoryItem {
   status: string;
 }
 
+interface RawTransaction {
+  id: string;
+  status: string;
+  finalWeight: number | null;
+  totalPrice: number | null;
+  completedAt?: string;
+  updatedAt?: string;
+  listing: {
+    id: string;
+    title: string;
+    estimatedWeight: number;
+    category?: { name: string };
+  };
+}
+
 export default function WalletPage() {
   const [wallet, setWallet] = useState<WalletData | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -51,10 +66,10 @@ export default function WalletPage() {
 
         if (transJson.status === 'success') {
           // Filter hanya transaksi yang SELESAI
-          const completed = transJson.data.filter((t: any) => t.status === 'SELESAI');
+          const completed = transJson.data.filter((t: RawTransaction) => t.status === 'SELESAI');
           
           // Map ke HistoryItem
-          const mappedHistory: HistoryItem[] = completed.map((t: any) => {
+          const mappedHistory: HistoryItem[] = completed.map((t: RawTransaction) => {
             const isPemilik = role === 'PEMILIK';
             const weight = t.finalWeight || t.listing.estimatedWeight || 0;
             const categoryName = t.listing.category?.name || 'Sampah';
@@ -73,8 +88,9 @@ export default function WalletPage() {
 
           setHistory(mappedHistory);
         }
-      } catch (err: any) {
-        setError(err.message || 'Terjadi kesalahan jaringan');
+      } catch (err: unknown) {
+        const errorVal = err as Error;
+        setError(errorVal.message || 'Terjadi kesalahan jaringan');
       } finally {
         setLoading(false);
       }

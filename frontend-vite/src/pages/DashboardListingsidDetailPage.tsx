@@ -42,13 +42,38 @@ interface ListingDetail {
   }>;
 }
 
+interface UserProfile {
+  id: string;
+  name: string;
+  email?: string;
+  role: string;
+  phoneNumber: string | null;
+  avatarUrl: string | null;
+}
+
+interface TransactionDetail {
+  id: string;
+  status: string;
+  finalWeight: number | null;
+  totalPrice: number | null;
+  pickupDate: string | null;
+  pengepulId: string;
+  pengepul: {
+    name: string;
+    phoneNumber: string | null;
+  };
+  listing: {
+    id: string;
+  };
+}
+
 export default function ListingDetailPage() {
   const params = useParams();
   const navigate = useNavigate();
   const listingId = params?.id as string;
 
   const [listing, setListing] = useState<ListingDetail | null>(null);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentImageIdx, setCurrentImageIdx] = useState(0);
@@ -57,7 +82,7 @@ export default function ListingDetailPage() {
   const [offerMessage, setOfferMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [transaction, setTransaction] = useState<any>(null);
+  const [transaction, setTransaction] = useState<TransactionDetail | null>(null);
   const [finalWeight, setFinalWeight] = useState('');
   
   const [pickupDate, setPickupDate] = useState('');
@@ -98,11 +123,12 @@ export default function ListingDetailPage() {
         }
 
         if (transJson.status === 'success') {
-          const currentTrans = transJson.data.find((t: any) => t.listing.id === listingId);
+          const currentTrans = transJson.data.find((t: TransactionDetail) => t.listing.id === listingId);
           if (currentTrans) setTransaction(currentTrans);
         }
-      } catch (err: any) {
-        setError(err.message || 'Terjadi kesalahan jaringan');
+      } catch (err: unknown) {
+        const errorVal = err as Error;
+        setError(errorVal.message || 'Terjadi kesalahan jaringan');
       } finally {
         setLoading(false);
       }
@@ -136,7 +162,7 @@ export default function ListingDetailPage() {
       } else {
         alert('Gagal mengirim penawaran: ' + data.message);
       }
-    } catch (e) {
+    } catch {
       alert('Terjadi kesalahan jaringan');
     } finally {
       setIsSubmitting(false);
@@ -168,7 +194,7 @@ export default function ListingDetailPage() {
       } else {
         alert('Gagal melakukan Pembelian Langsung: ' + data.message);
       }
-    } catch (e) {
+    } catch {
       alert('Terjadi kesalahan jaringan');
     } finally {
       setIsSubmitting(false);
@@ -193,7 +219,7 @@ export default function ListingDetailPage() {
       } else {
         alert('Gagal memproses penawaran: ' + data.message);
       }
-    } catch (e) {
+    } catch {
       alert('Terjadi kesalahan jaringan');
     }
   };
@@ -216,7 +242,7 @@ export default function ListingDetailPage() {
       } else {
         alert('Gagal mengupdate transaksi: ' + data.message);
       }
-    } catch (e) {
+    } catch {
       alert('Terjadi kesalahan jaringan');
     }
   };
@@ -242,7 +268,7 @@ export default function ListingDetailPage() {
       } else {
         alert('Gagal mengatur jadwal: ' + data.message);
       }
-    } catch (e) {
+    } catch {
       alert('Terjadi kesalahan jaringan');
     }
   };
@@ -276,8 +302,16 @@ export default function ListingDetailPage() {
       
       if (tokenData.status === 'success' && tokenData.data.token) {
         // 2. Tampilkan Popup Midtrans
-        (window as any).snap.pay(tokenData.data.token, {
-          onSuccess: async function(result: any) {
+        type SnapType = {
+          pay: (token: string, options: {
+            onSuccess: () => Promise<void>;
+            onPending: () => void;
+            onError: () => void;
+            onClose: () => void;
+          }) => void;
+        };
+        (window as unknown as { snap: SnapType }).snap.pay(tokenData.data.token, {
+          onSuccess: async function() {
              // 3. Update status transaksi jadi selesai
              await fetch(`http://localhost:5000/api/transactions/${transaction.id}/status`, {
                 method: 'PATCH',
@@ -290,11 +324,11 @@ export default function ListingDetailPage() {
              alert('Pembayaran Berhasil & Transaksi Selesai!');
              window.location.reload();
           },
-          onPending: function(result: any) {
+          onPending: function() {
              alert('Menunggu pembayaran Anda...');
              setIsPaying(false);
           },
-          onError: function(result: any) {
+          onError: function() {
              alert('Pembayaran gagal!');
              setIsPaying(false);
           },
@@ -306,9 +340,10 @@ export default function ListingDetailPage() {
         alert('Gagal mendapatkan token pembayaran: ' + (tokenData.message || JSON.stringify(tokenData)));
         setIsPaying(false);
       }
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error("Full Error:", e);
-      alert('Terjadi kesalahan sistem: ' + e.message);
+      const err = e as Error;
+      alert('Terjadi kesalahan sistem: ' + err.message);
       setIsPaying(false);
     }
   };

@@ -11,6 +11,15 @@ export default function CreateListingPage() {
     name: string;
   }
 
+  interface Address {
+    id: string;
+    label: string;
+    fullAddress: string;
+    latitude: number;
+    longitude: number;
+    isPrimary: boolean;
+  }
+
   const navigate = useNavigate();
   const [categories, setCategories] = useState<CategoryData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -27,7 +36,7 @@ export default function CreateListingPage() {
 
   // Location State
   const [locationMethod, setLocationMethod] = useState<'profile' | 'current'>('profile');
-  const [profileAddress, setProfileAddress] = useState<any>(null);
+  const [profileAddress, setProfileAddress] = useState<Address | null>(null);
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [locationName, setLocationName] = useState('Memuat alamat profil Anda...');
@@ -129,7 +138,7 @@ export default function CreateListingPage() {
       });
       const data = await res.json();
       if (data.status === 'success' && data.data.addresses && data.data.addresses.length > 0) {
-        const primary = data.data.addresses.find((addr: any) => addr.isPrimary) || data.data.addresses[0];
+        const primary = data.data.addresses.find((addr: Address) => addr.isPrimary) || data.data.addresses[0];
         setProfileAddress(primary);
         setLocationName(`${primary.label}: ${primary.fullAddress}`);
         setLatitude(primary.latitude);
@@ -158,7 +167,7 @@ export default function CreateListingPage() {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
-      let imageUrls: string[] = [];
+      const imageUrls: string[] = [];
       
       // Upload images if any
       if (imageFiles.length > 0) {
