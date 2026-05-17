@@ -74,12 +74,15 @@ export default function WalletPage() {
             const weight = t.finalWeight || t.listing.estimatedWeight || 0;
             const categoryName = t.listing.category?.name || 'Sampah';
             
+            const grossAmount = t.totalPrice || 0;
+            const netAmount = isPemilik ? grossAmount * 0.95 : grossAmount;
+
             return {
               id: t.id,
               type: isPemilik ? 'IN' : 'OUT',
-              amount: t.totalPrice || 0,
+              amount: netAmount,
               description: isPemilik 
-                ? `Penjualan ${weight}kg ${categoryName}` 
+                ? `Penjualan ${weight}kg ${categoryName} (-5% Biaya Layanan)` 
                 : `Pembelian ${weight}kg ${categoryName}`,
               date: t.completedAt || t.updatedAt || new Date().toISOString(),
               status: 'SUCCESS'

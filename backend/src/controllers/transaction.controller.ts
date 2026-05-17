@@ -76,16 +76,24 @@ export const updateTransactionStatus = async (req: AuthRequest, res: Response): 
           where: { userId: transaction.listing.userId }
         });
         
+        // --- PLATFORM FEE LOGIC ---
+        // Biaya layanan platform sebesar 5% dibebankan ke pemilik
+        const platformFeePercentage = 0.05;
+        const grossAmount = parseFloat(totalPrice);
+        const platformFee = grossAmount * platformFeePercentage;
+        const netAmount = grossAmount - platformFee;
+        // --------------------------
+
         if (wallet) {
           await prisma.wallet.update({
             where: { userId: transaction.listing.userId },
-            data: { balance: wallet.balance + parseFloat(totalPrice) }
+            data: { balance: wallet.balance + netAmount }
           });
         } else {
           await prisma.wallet.create({
             data: {
               userId: transaction.listing.userId,
-              balance: parseFloat(totalPrice)
+              balance: netAmount
             }
           });
         }
@@ -106,7 +114,10 @@ export const updateTransactionStatus = async (req: AuthRequest, res: Response): 
       if (status === 'TRANSIT') {
         waMessage = `*[Trashure]* Bersiaplah ${transaction.listing.user.name}!\nPengepul (${transaction.pengepul.name}) sedang *ON THE WAY* menuju lokasi Anda untuk menjemput sampah "${transaction.listing.title}".`;
       } else if (status === 'SELESAI') {
-        waMessage = `*[Trashure]* Transaksi Selesai!\nSampah "${transaction.listing.title}" telah berhasil diangkut. Saldo Wallet Anda telah bertambah senilai *Rp ${totalPrice}*. Terima kasih telah menjaga lingkungan bersama Trashure!`;
+        const grossAmount = parseFloat(totalPrice || '0');
+        const platformFee = grossAmount * 0.05;
+        const netAmount = grossAmount - platformFee;
+        waMessage = `*[Trashure]* Transaksi Selesai!\nSampah "${transaction.listing.title}" telah berhasil diangkut. Saldo Wallet Anda bertambah senilai *Rp ${netAmount}* (setelah dipotong biaya layanan 5%). Terima kasih telah menggunakan Trashure!`;
       } else if (pickupDate) {
         waMessage = `*[Trashure]* Update Jadwal!\nJadwal penjemputan untuk "${transaction.listing.title}" telah disetel pada *${new Date(pickupDate).toLocaleString('id-ID')}*.`;
       }

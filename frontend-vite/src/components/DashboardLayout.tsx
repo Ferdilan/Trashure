@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '@/lib/supabase/client';
-import { 
-  LayoutDashboard, Search, List, Receipt, Wallet, 
-  User, LogOut, Menu, X, Leaf 
+import {
+  LayoutDashboard, Search, List, Receipt, Wallet,
+  User, LogOut, Menu, X, Leaf
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -48,7 +48,7 @@ export default function DashboardLayout() {
     { name: 'Transaksi', href: '/dashboard/transactions', icon: Receipt },
     { name: 'Wallet', href: '/dashboard/wallet', icon: Wallet, role: 'PEMILIK' },
     { name: 'Profil', href: '/dashboard/profile', icon: User },
-    
+
     // Admin specific links
     { name: 'Admin Dashboard', href: '/dashboard/admin', icon: LayoutDashboard, role: 'ADMIN' },
     { name: 'Kelola Pengguna', href: '/dashboard/admin/users', icon: User, role: 'ADMIN' },
@@ -69,24 +69,24 @@ export default function DashboardLayout() {
     <div className="h-screen overflow-hidden bg-muted/30 flex">
       {/* Mobile Overlay */}
       {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden" 
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
           onClick={toggleSidebar}
         />
       )}
 
       {/* Sidebar */}
-      <aside 
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-card border-r shadow-sm transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:flex lg:flex-col ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-card border-r shadow-sm transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:flex lg:flex-col ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="flex items-center justify-between h-16 px-6 border-b">
           <Link to="/dashboard" className="flex items-center gap-2">
-            <div className="bg-primary/10 p-1.5 rounded-md">
-              <Leaf className="h-5 w-5 text-primary" />
-            </div>
-            <span className="font-bold text-lg text-primary tracking-tight">Trashure</span>
+            {/* Menampilkan gambar logo Anda dari folder public */}
+            <img src="/logo.png" alt="Logo Trashure" className="h-10 w-auto" />
+
+            {/* Opsional: Teks ini bisa dihapus jika gambar logo Anda sudah mengandung teks */}
+            <span className="font-bold text-xl tracking-tight text-primary">Trashure</span>
           </Link>
           <button onClick={toggleSidebar} className="lg:hidden text-muted-foreground hover:text-foreground">
             <X className="h-5 w-5" />
@@ -120,11 +120,10 @@ export default function DashboardLayout() {
                   key={link.name}
                   to={link.href}
                   onClick={() => setIsSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive 
-                      ? 'bg-primary/10 text-primary' 
-                      : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
-                  }`}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
+                    ? 'bg-primary/10 text-primary'
+                    : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
+                    }`}
                 >
                   <Icon className="h-4 w-4" />
                   {link.name}
@@ -135,8 +134,8 @@ export default function DashboardLayout() {
         </div>
 
         <div className="p-4 border-t">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="w-full justify-start text-muted-foreground hover:text-destructive hover:bg-destructive/10"
             onClick={handleLogout}
           >
@@ -156,7 +155,7 @@ export default function DashboardLayout() {
             </div>
             <span className="font-bold text-lg text-primary">Trashure</span>
           </div>
-          <button 
+          <button
             onClick={toggleSidebar}
             className="p-2 -mr-2 text-muted-foreground hover:text-foreground"
           >

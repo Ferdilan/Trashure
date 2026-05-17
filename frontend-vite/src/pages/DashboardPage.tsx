@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, Package, Coins, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import PageWrapper from '@/components/PageWrapper';
+import AnimatedCounter from '@/components/AnimatedCounter';
 
 export default function DashboardPage() {
   interface UserProfile {
@@ -65,7 +67,7 @@ export default function DashboardPage() {
   const isPemilik = profile.role === 'PEMILIK';
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
+    <PageWrapper className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Halo, {profile.name}! 👋</h1>
         <p className="text-muted-foreground mt-1">
@@ -83,7 +85,9 @@ export default function DashboardPage() {
               <Coins className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Rp {(stats?.balance ?? profile.wallet?.balance ?? 0).toLocaleString('id-ID')}</div>
+              <div className="text-2xl font-bold">
+                <AnimatedCounter prefix="Rp " value={stats?.balance ?? profile.wallet?.balance ?? 0} />
+              </div>
               <p className="text-xs text-muted-foreground mt-1">
                 Bisa ditarik kapan saja
               </p>
@@ -96,7 +100,9 @@ export default function DashboardPage() {
               <Coins className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">Rp {(stats?.totalSpent ?? 0).toLocaleString('id-ID')}</div>
+              <div className="text-2xl font-bold">
+                <AnimatedCounter prefix="Rp " value={stats?.totalSpent ?? 0} />
+              </div>
               <p className="text-xs text-muted-foreground mt-1">
                 Dana dibelanjakan untuk sampah
               </p>
@@ -110,7 +116,9 @@ export default function DashboardPage() {
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{(stats?.totalWeight ?? 0).toLocaleString('id-ID')} kg</div>
+            <div className="text-2xl font-bold">
+              <AnimatedCounter value={stats?.totalWeight ?? 0} suffix=" kg" />
+            </div>
             <p className="text-xs text-muted-foreground mt-1">
               Bulan ini
             </p>
@@ -123,7 +131,9 @@ export default function DashboardPage() {
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{isPemilik ? (stats?.activeListingsCount ?? 0) : (stats?.completedTasksCount ?? 0)}</div>
+            <div className="text-2xl font-bold">
+              <AnimatedCounter value={isPemilik ? (stats?.activeListingsCount ?? 0) : (stats?.completedTasksCount ?? 0)} duration={1} />
+            </div>
             <p className="text-xs text-muted-foreground mt-1">
               {isPemilik ? 'Menunggu tawaran' : 'Total diselesaikan'}
             </p>
@@ -136,7 +146,9 @@ export default function DashboardPage() {
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{stats?.waitingActionCount ?? 0}</div>
+            <div className="text-2xl font-bold">
+              <AnimatedCounter value={stats?.waitingActionCount ?? 0} duration={1} />
+            </div>
             <p className="text-xs text-muted-foreground mt-1">
               Perlu perhatian Anda
             </p>
@@ -145,18 +157,18 @@ export default function DashboardPage() {
       </div>
 
       {isPemilik && (
-        <div className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
           <div>
             <h2 className="text-xl font-bold text-foreground">Punya sampah yang siap dijual?</h2>
             <p className="text-muted-foreground mt-2">
               Buat listing baru sekarang dan biarkan pengepul di sekitar Anda memberikan penawaran terbaik.
             </p>
           </div>
-          <Button size="lg" className="shrink-0" onClick={() => window.location.href='/dashboard/listings/new'}>
+          <Button size="lg" className="shrink-0 active:scale-95 transition-all" onClick={() => window.location.href='/dashboard/listings/new'}>
             Buat Listing Baru
           </Button>
         </div>
       )}
-    </div>
+    </PageWrapper>
   );
 }
