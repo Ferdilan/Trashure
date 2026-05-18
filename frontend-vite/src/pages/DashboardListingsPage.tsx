@@ -28,7 +28,7 @@ export default function MyListingsPage() {
       // Di API getListings kita mungkin perlu memfilter berdasarkan user.id di controller
       // Untuk MVP kita abaikan jika belum ada filternya dan ambil secara umum (Mocking)
 
-      const res = await fetch('http://localhost:5000/api/listings?mine=true', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings?mine=true`, {
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });
       const data = await res.json();
@@ -55,7 +55,7 @@ export default function MyListingsPage() {
     if (!window.confirm('Apakah Anda yakin ingin menghapus listing ini?')) return;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`http://localhost:5000/api/listings/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });

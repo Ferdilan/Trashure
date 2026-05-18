@@ -34,7 +34,7 @@ export default function ChatPage() {
 
     try {
       // Get profile
-      const profRes = await fetch('http://localhost:5000/api/users/profile', {
+      const profRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
         headers: { 'Authorization': `Bearer ${session.access_token}` }
       });
       const profData = await profRes.json();
@@ -43,7 +43,7 @@ export default function ChatPage() {
       }
 
       // Initialize Socket specifically for chat
-      const newSocket = io('http://localhost:5000');
+      const newSocket = io(import.meta.env.VITE_API_URL);
       newSocket.on('connect', () => {
         newSocket.emit('join', profData.data.id);
       });
@@ -57,7 +57,7 @@ export default function ChatPage() {
       setSocket(newSocket);
 
       // Fetch message history
-      const msgRes = await fetch(`http://localhost:5000/api/chats/${transactionId}`, {
+      const msgRes = await fetch(`${import.meta.env.VITE_API_URL}/api/chats/${transactionId}`, {
         headers: { 'Authorization': `Bearer ${session.access_token}` }
       });
       const msgData = await msgRes.json();

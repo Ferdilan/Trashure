@@ -36,7 +36,7 @@ export default function DashboardPage() {
 
       try {
         // Fetch Profile
-        const profileRes = await fetch('http://localhost:5000/api/users/profile', {
+        const profileRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
         const profileJson = await profileRes.json();
@@ -45,7 +45,7 @@ export default function DashboardPage() {
         }
 
         // Fetch Stats
-        const statsRes = await fetch('http://localhost:5000/api/users/dashboard-stats', {
+        const statsRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/dashboard-stats`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
         const statsJson = await statsRes.json();

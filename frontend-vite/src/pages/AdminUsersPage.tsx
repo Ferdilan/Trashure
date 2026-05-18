@@ -21,7 +21,7 @@ export default function AdminUsersPage() {
     if (!session) return;
 
     try {
-      const res = await fetch('http://localhost:5000/api/admin/users', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/users`, {
         headers: { 'Authorization': `Bearer ${session.access_token}` }
       });
       const data = await res.json();
@@ -45,7 +45,7 @@ export default function AdminUsersPage() {
     if (!session) return;
 
     try {
-      await fetch(`http://localhost:5000/api/admin/users/${id}/verify`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}/verify`, {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',

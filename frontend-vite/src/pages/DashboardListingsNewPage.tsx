@@ -106,7 +106,7 @@ export default function CreateListingPage() {
   const fetchCategories = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('http://localhost:5000/api/categories', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/categories`, {
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });
       const data = await res.json();
@@ -133,7 +133,7 @@ export default function CreateListingPage() {
   const fetchProfileAddress = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('http://localhost:5000/api/users/profile', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });
       const data = await res.json();
@@ -194,7 +194,7 @@ export default function CreateListingPage() {
         }
       }
 
-      const res = await fetch('http://localhost:5000/api/listings', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',

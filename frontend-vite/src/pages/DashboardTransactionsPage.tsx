@@ -34,7 +34,7 @@ export default function TransactionsPage() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Not authenticated');
 
-      const res = await fetch('http://localhost:5000/api/transactions', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
         headers: { 'Authorization': `Bearer ${session.access_token}` }
       });
       

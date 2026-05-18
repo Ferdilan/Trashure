@@ -97,13 +97,13 @@ export default function ListingDetailPage() {
         if (!session) throw new Error('Not authenticated');
 
         const [listingRes, profileRes, transRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/listings/${listingId}`, {
+          fetch(`${import.meta.env.VITE_API_URL}/api/listings/${listingId}`, {
             headers: { 'Authorization': `Bearer ${session.access_token}` }
           }),
-          fetch(`http://localhost:5000/api/users/profile`, {
+          fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
             headers: { 'Authorization': `Bearer ${session.access_token}` }
           }),
-          fetch(`http://localhost:5000/api/transactions`, {
+          fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
             headers: { 'Authorization': `Bearer ${session.access_token}` }
           })
         ]);
@@ -143,7 +143,7 @@ export default function ListingDetailPage() {
     setIsSubmitting(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`http://localhost:5000/api/offers`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/offers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ export default function ListingDetailPage() {
     setIsSubmitting(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`http://localhost:5000/api/offers`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/offers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -205,7 +205,7 @@ export default function ListingDetailPage() {
     if (!window.confirm(`Apakah Anda yakin ingin ${status.toLowerCase()} penawaran ini?`)) return;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`http://localhost:5000/api/offers/${offerId}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/offers/${offerId}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -228,7 +228,7 @@ export default function ListingDetailPage() {
     if (!transaction) return;
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`http://localhost:5000/api/transactions/${transaction.id}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -254,7 +254,7 @@ export default function ListingDetailPage() {
     
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch(`http://localhost:5000/api/transactions/${transaction.id}/status`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}/status`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -291,7 +291,7 @@ export default function ListingDetailPage() {
       const { data: { session } } = await supabase.auth.getSession();
       
       // 1. Dapatkan Token Midtrans
-      const tokenRes = await fetch(`http://localhost:5000/api/transactions/${transaction.id}/pay`, {
+      const tokenRes = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}/pay`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -314,7 +314,7 @@ export default function ListingDetailPage() {
         (window as unknown as { snap: SnapType }).snap.pay(tokenData.data.token, {
           onSuccess: async function() {
              // 3. Update status transaksi jadi selesai
-             await fetch(`http://localhost:5000/api/transactions/${transaction.id}/status`, {
+             await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${transaction.id}/status`, {
                 method: 'PATCH',
                 headers: {
                   'Content-Type': 'application/json',

@@ -44,7 +44,7 @@ export default function ProfilePage() {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error('Not authenticated');
 
-      const res = await fetch('http://localhost:5000/api/users/profile', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
         headers: {
           'Authorization': `Bearer ${session.access_token}`
         }
@@ -73,7 +73,7 @@ export default function ProfilePage() {
     e.preventDefault();
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('http://localhost:5000/api/users/profile', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function ProfilePage() {
     e.preventDefault();
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('http://localhost:5000/api/users/addresses', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/addresses`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -27,7 +27,7 @@ export default function PickupManagementPage() {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
-      const res = await fetch('http://localhost:5000/api/transactions', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });
       const data = await res.json();
@@ -65,7 +65,7 @@ export default function PickupManagementPage() {
   const handleUpdateStatus = async (id: string, newStatus: string) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      await fetch(`http://localhost:5000/api/transactions/${id}/status`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/transactions/${id}/status`, {
         method: 'PATCH',
         headers: { 
           'Content-Type': 'application/json',

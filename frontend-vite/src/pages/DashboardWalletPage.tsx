@@ -46,7 +46,7 @@ export default function WalletPage() {
         if (!session) throw new Error('Not authenticated');
 
         // 1. Fetch Profile
-        const profileRes = await fetch('http://localhost:5000/api/users/profile', {
+        const profileRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
         const profileJson = await profileRes.json();
@@ -59,7 +59,7 @@ export default function WalletPage() {
         setWallet({ balance: profileJson.data.wallet?.balance || 0 });
 
         // 2. Fetch Transactions
-        const transRes = await fetch('http://localhost:5000/api/transactions', {
+        const transRes = await fetch(`${import.meta.env.VITE_API_URL}/api/transactions`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
         const transJson = await transRes.json();

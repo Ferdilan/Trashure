@@ -24,7 +24,7 @@ export default function FeedPage() {
   const fetchFeed = async () => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await fetch('http://localhost:5000/api/listings?status=TERSEDIA', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listings?status=TERSEDIA`, {
         headers: { 'Authorization': `Bearer ${session?.access_token}` }
       });
       const data = await res.json();

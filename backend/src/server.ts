@@ -10,7 +10,7 @@ const server = http.createServer(app);
 // Inisialisasi Socket.io
 const io = new Server(server, {
   cors: {
-    origin: '*', // Di production, ganti dengan origin spesifik
+    origin: 'https://trashure-theta.vercel.app', // Di production, ganti dengan origin spesifik
     methods: ['GET', 'POST']
   }
 });
@@ -40,8 +40,8 @@ io.on('connection', (socket) => {
 
       if (!transaction) return;
 
-      const receiverId = transaction.pengepulId === senderId 
-        ? transaction.listing.userId 
+      const receiverId = transaction.pengepulId === senderId
+        ? transaction.listing.userId
         : transaction.pengepulId;
 
       // 1. Simpan pesan ke database

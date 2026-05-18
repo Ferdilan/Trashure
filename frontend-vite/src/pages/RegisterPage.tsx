@@ -39,7 +39,7 @@ function RegisterForm() {
     if (authData.user) {
       try {
         // 2. Sinkronisasi ke Backend Node.js
-        const res = await fetch('http://localhost:5000/api/users/sync', {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/sync`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

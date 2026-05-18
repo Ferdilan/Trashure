@@ -22,7 +22,7 @@ export default function DashboardLayout() {
       if (!session) {
         navigate('/login');
       } else {
-        const profileRes = await fetch(`http://localhost:5000/api/users/profile`, {
+        const profileRes = await fetch(`${import.meta.env.VITE_API_URL}/api/users/profile`, {
           headers: { 'Authorization': `Bearer ${session.access_token}` }
         });
         const profileJson = await profileRes.json();
