@@ -181,54 +181,70 @@ export default function LandingPage() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center mb-16 animate-in fade-in duration-700">
             <span className="text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">Tentang Kami</span>
-            <h2 className="text-4xl font-extrabold tracking-tight mt-4 mb-4">Visi & Misi Trashure</h2>
-            <div className="max-w-3xl mx-auto space-y-2">
-              <span className="text-sm font-semibold text-primary uppercase tracking-wider">Visi Kami</span>
-              <p className="text-lg font-medium text-foreground leading-relaxed">
+            <h2 className="text-4xl font-extrabold tracking-tight mt-4 mb-2">Visi & Misi Trashure</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">
+              Komitmen kami untuk mewujudkan masa depan lingkungan yang bersih, sehat, dan bernilai guna melalui inovasi teknologi.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-12 gap-8 items-stretch mb-16">
+            {/* Visi - Column 5/12 */}
+            <div className="md:col-span-5 bg-gradient-to-br from-primary/10 to-emerald-500/5 border border-primary/15 rounded-3xl p-8 flex flex-col justify-center relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="absolute top-0 right-0 -mr-6 -mt-6 h-32 w-32 rounded-full bg-primary/10 blur-2xl"></div>
+
+              <div className="h-12 w-12 bg-primary/20 text-primary rounded-2xl flex items-center justify-center mb-6">
+                <Recycle className="h-6 w-6" />
+              </div>
+
+              <span className="text-xs font-bold uppercase tracking-wider text-primary mb-2 block">Visi Kami</span>
+              <h3 className="text-2xl font-black text-foreground mb-4">Masa Depan Hijau & Digital</h3>
+              <p className="text-lg font-medium text-foreground/90 leading-relaxed italic">
                 "Menjadi platform digital inovatif yang menghubungkan masyarakat dan UMKM dalam pengelolaan dan jual beli sampah daur ulang secara efisien serta bernilai ekonomi."
               </p>
             </div>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            <div className="space-y-6">
-              <div className="bg-card p-6 rounded-2xl border shadow-sm flex items-start gap-4">
-                <div className="bg-primary/10 p-3 rounded-xl shrink-0">
-                  <Recycle className="h-6 w-6 text-primary" />
+            {/* Misi - Column 7/12 */}
+            <div className="md:col-span-7 flex flex-col justify-between space-y-6">
+              <div className="bg-card hover:bg-muted/50 p-6 rounded-2xl border shadow-sm flex items-start gap-5 hover:-translate-y-1 transition-all duration-300">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-xl">
+                  01
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-1">Misi Pertama</h4>
-                  <p className="text-sm text-muted-foreground">Menjembatani masyarakat dan UMKM dengan jaringan pengepul lokal melalui teknologi, guna mewujudkan Indonesia bersih dan berkelanjutan.</p>
+                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Konektivitas & Keberlanjutan</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Menjembatani masyarakat dan UMKM dengan jaringan pengepul lokal melalui teknologi, guna mewujudkan Indonesia bersih dan berkelanjutan.</p>
                 </div>
               </div>
 
-              <div className="bg-card p-6 rounded-2xl border shadow-sm flex items-start gap-4">
-                <div className="bg-primary/10 p-3 rounded-xl shrink-0">
-                  <Leaf className="h-6 w-6 text-primary" />
+              <div className="bg-card hover:bg-muted/50 p-6 rounded-2xl border shadow-sm flex items-start gap-5 hover:-translate-y-1 transition-all duration-300">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-xl">
+                  02
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-1">Misi Kedua</h4>
-                  <p className="text-sm text-muted-foreground">Meningkatkan literasi, partisipasi, dan efisiensi rantai pasok daur ulang melalui edukasi, insentif digital, sistem logistik terintegrasi, serta transaksi harga transparan berbasis data real-time.</p>
+                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Edukasi, Transparansi & Logistik</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Meningkatkan literasi, partisipasi, dan efisiensi rantai pasok daur ulang melalui edukasi, insentif digital, sistem logistik terintegrasi, serta transaksi harga transparan berbasis data real-time.</p>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="bg-gradient-to-tr from-primary/10 to-emerald-400/10 border border-primary/20 rounded-3xl p-8 relative overflow-hidden">
-              <div className="absolute top-0 right-0 -mr-6 -mt-6 h-24 w-24 rounded-full bg-primary/20 blur-2xl"></div>
-              <h3 className="text-2xl font-bold mb-4">Dampak Bersama Kami 🌍</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+          {/* Dampak Bersama Kami - Horizontal Banner */}
+          <div className="bg-card border rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-sm">
+            <div className="max-w-xl">
+              <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                Dampak Bersama Kami 🌍
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 Sejak pertama kali diluncurkan, komunitas Trashure telah berhasil mengalihkan ribuan kilogram sampah dari Tempat Pembuangan Akhir (TPA) langsung ke pabrik pengolahan daur ulang.
               </p>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-card/60 backdrop-blur-md p-4 rounded-xl border border-white/20">
-                  <div className="text-2xl font-extrabold text-primary">10+ Ton</div>
-                  <div className="text-xs text-muted-foreground">Sampah Terdaur Ulang</div>
-                </div>
-                <div className="bg-card/60 backdrop-blur-md p-4 rounded-xl border border-white/20">
-                  <div className="text-2xl font-extrabold text-primary">500+</div>
-                  <div className="text-xs text-muted-foreground">Pengguna Aktif</div>
-                </div>
+            </div>
+            <div className="flex gap-8 shrink-0 w-full md:w-auto justify-between md:justify-end">
+              <div className="text-center md:text-left">
+                <div className="text-3xl font-black text-primary">10+ Ton</div>
+                <div className="text-xs text-muted-foreground mt-1 font-medium">Sampah Terdaur Ulang</div>
+              </div>
+              <div className="text-center md:text-left border-l pl-8 border-primary/20">
+                <div className="text-3xl font-black text-primary">500+</div>
+                <div className="text-xs text-muted-foreground mt-1 font-medium">Pengguna Aktif</div>
               </div>
             </div>
           </div>
