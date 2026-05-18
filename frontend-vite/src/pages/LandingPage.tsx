@@ -181,10 +181,13 @@ export default function LandingPage() {
         <div className="container mx-auto px-6 max-w-5xl">
           <div className="text-center mb-16 animate-in fade-in duration-700">
             <span className="text-xs font-bold uppercase tracking-wider text-primary bg-primary/10 px-3 py-1 rounded-full">Tentang Kami</span>
-            <h2 className="text-4xl font-extrabold tracking-tight mt-4 mb-4">Misi Trashure</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">
-              Trashure hadir sebagai jembatan teknologi untuk menghubungkan Anda dengan jaringan pengepul sampah daur ulang lokal guna mempercepat terwujudnya Indonesia bersih dan berkelanjutan.
-            </p>
+            <h2 className="text-4xl font-extrabold tracking-tight mt-4 mb-4">Visi & Misi Trashure</h2>
+            <div className="max-w-3xl mx-auto space-y-2">
+              <span className="text-sm font-semibold text-primary uppercase tracking-wider">Visi Kami</span>
+              <p className="text-lg font-medium text-foreground leading-relaxed">
+                "Menjadi platform digital inovatif yang menghubungkan masyarakat dan UMKM dalam pengelolaan dan jual beli sampah daur ulang secara efisien serta bernilai ekonomi."
+              </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
@@ -194,8 +197,8 @@ export default function LandingPage() {
                   <Recycle className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-1">Mendorong Sirkular Ekonomi</h4>
-                  <p className="text-sm text-muted-foreground">Mendorong masyarakat agar giat mendaur ulang sampah dengan cara memberikan insentif ekonomi (Uang) yang kompetitif.</p>
+                  <h4 className="font-bold text-lg mb-1">Misi Pertama</h4>
+                  <p className="text-sm text-muted-foreground">Menjembatani masyarakat dan UMKM dengan jaringan pengepul lokal melalui teknologi, guna mewujudkan Indonesia bersih dan berkelanjutan.</p>
                 </div>
               </div>
 
@@ -204,8 +207,8 @@ export default function LandingPage() {
                   <Leaf className="h-6 w-6 text-primary" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-lg mb-1">Pemberdayaan Mitra Pengepul</h4>
-                  <p className="text-sm text-muted-foreground">Mendukung mata pencaharian pengepul lokal lewat sistem marketplace digital terpadu agar operasional mereka menjadi efisien.</p>
+                  <h4 className="font-bold text-lg mb-1">Misi Kedua</h4>
+                  <p className="text-sm text-muted-foreground">Meningkatkan literasi, partisipasi, dan efisiensi rantai pasok daur ulang melalui edukasi, insentif digital, sistem logistik terintegrasi, serta transaksi harga transparan berbasis data real-time.</p>
                 </div>
               </div>
             </div>
