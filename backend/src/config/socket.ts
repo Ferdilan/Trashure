@@ -7,7 +7,7 @@ let io: Server;
 export const initSocket = (httpServer: HttpServer) => {
   io = new Server(httpServer, {
     cors: {
-      origin: '*', // Untuk dev, nanti disesuaikan dengan domain frontend
+      origin: 'https://trashure-theta.vercel.app', // Di production, ganti dengan origin spesifik
       methods: ['GET', 'POST']
     }
   });
@@ -15,19 +15,37 @@ export const initSocket = (httpServer: HttpServer) => {
   io.on('connection', (socket) => {
     console.log(`User connected to socket: ${socket.id}`);
 
-    // User bisa join room berdasarkan ID Supabase mereka
+    // User join room berdasarkan ID Supabase mereka
     socket.on('join', (userId: string) => {
       socket.join(userId);
       console.log(`Socket ${socket.id} joined room ${userId}`);
     });
 
-    // Handle Chat Internal (Phase 4.2)
-    socket.on('send_message', async (data: { transactionId: string, senderId: string, receiverId: string, content: string }) => {
+    // User join room berdasarkan ID Transaksi agar chat spesifik per transaksi
+    socket.on('join_transaction_room', (transactionId: string) => {
+      socket.join(`transaction_${transactionId}`);
+      console.log(`Socket ${socket.id} joined room transaction_${transactionId}`);
+    });
+
+    // Saat user mengirim pesan
+    socket.on('send_message', async (data: any) => {
       try {
-        const { transactionId, senderId, receiverId, content } = data;
-        
-        // Simpan ke DB
-        const message = await prisma.message.create({
+        const { transactionId, senderId, content } = data;
+
+        // Cari receiver otomatis dari transaksi
+        const transaction = await prisma.transaction.findUnique({
+          where: { id: transactionId },
+          include: { listing: true }
+        });
+
+        if (!transaction) return;
+
+        const receiverId = transaction.pengepulId === senderId
+          ? transaction.listing.userId
+          : transaction.pengepulId;
+
+        // 1. Simpan pesan ke database
+        const savedMessage = await prisma.message.create({
           data: {
             transactionId,
             senderId,
@@ -35,24 +53,23 @@ export const initSocket = (httpServer: HttpServer) => {
             content
           },
           include: {
-            sender: { select: { name: true, role: true } }
+            sender: { select: { id: true, name: true, avatarUrl: true } }
           }
         });
 
-        // Broadcast ke pengirim dan penerima
-        io.to(receiverId).emit('receive_message', message);
-        io.to(senderId).emit('receive_message', message);
+        // 2. Broadcast pesan ke semua user yang ada di room transaksi tersebut
+        io.to(`transaction_${transactionId}`).emit('receive_message', savedMessage);
         
-        // Opsional: Kirim notifikasi juga ke penerima
+        // Opsional: Kirim notifikasi juga ke room user penerima (dashboard alert)
         io.to(receiverId).emit('notification', {
-          title: `Pesan baru dari ${message.sender.name}`,
+          title: `Pesan baru dari ${savedMessage.sender.name}`,
           body: content,
           type: 'NEW_MESSAGE',
           transactionId
         });
 
-      } catch (err) {
-        console.error('Socket message error:', err);
+      } catch (error) {
+        console.error('Socket error - send_message:', error);
       }
     });
 
