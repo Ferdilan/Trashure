@@ -31,7 +31,7 @@ waClient.on('disconnected', () => {
 });
 
 // Initialize client
-// waClient.initialize();
+waClient.initialize();
 
 // MOCK FUNCTION (Ganti isMock = false jika sudah install whatsapp-web.js)
 const isMock = false;
