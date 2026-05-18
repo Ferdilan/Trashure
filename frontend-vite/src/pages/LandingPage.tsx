@@ -292,7 +292,10 @@ export default function LandingPage() {
             <Leaf className="h-5 w-5 text-primary" />
             <span className="font-bold text-foreground">Trashure</span>
           </div>
-          <p>© {new Date().getFullYear()} Trashure Indonesia. Semua Hak Dilindungi.</p>
+          <p>© {new Date().getFullYear()} Trashure Indonesia. Semua Hak Dilindungi Undang - Undang.</p>
+          <p className="mt-2 text-xs text-muted-foreground/80">
+            Didevelop oleh <a href="https://github.com/ferdilan" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-semibold">Ferdilan</a>
+          </p>
         </div>
       </footer>
     </div>
