@@ -25,8 +25,9 @@ export const requireAuth = async (req: AuthRequest, res: Response, next: NextFun
 
     req.user = user;
     next();
-  } catch (error) {
-    console.error("Auth middleware error:", error);
-    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+  } catch (error: any) {
+    console.error("Auth middleware error:", error.message || error);
+    // Jika token kadaluarsa atau error auth lainnya, berikan 401 agar frontend bisa merespon
+    res.status(401).json({ status: 'error', message: 'Unauthorized: Token expired or invalid' });
   }
 };
