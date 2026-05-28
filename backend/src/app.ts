@@ -6,7 +6,7 @@ dotenv.config();
 
 const app: Application = express();
 
-// Middleware
+// Middleware CORS — izinkan semua origin yang dibutuhkan
 app.use(cors({
   origin: [
     'https://trashure-theta.vercel.app', // Web production (Vercel)
@@ -16,9 +16,13 @@ app.use(cors({
     'capacitor://localhost',              // Capacitor iOS
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
 }));
+
+// Handle preflight OPTIONS untuk semua route
+app.options('*', cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
