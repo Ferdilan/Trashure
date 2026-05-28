@@ -8,8 +8,15 @@ const app: Application = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://trashure-theta.vercel.app', 'http://localhost:5173', 'http://localhost:3000'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: [
+    'https://trashure-theta.vercel.app', // Web production (Vercel)
+    'http://localhost:5173',              // Dev frontend Vite
+    'http://localhost:3000',              // Dev alternatif
+    'https://localhost',                  // Capacitor Android (WebView)
+    'capacitor://localhost',              // Capacitor iOS
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
 app.use(express.json());
