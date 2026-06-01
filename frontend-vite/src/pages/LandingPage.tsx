@@ -199,7 +199,7 @@ export default function LandingPage() {
               <span className="text-xs font-bold uppercase tracking-wider text-primary mb-2 block">Visi Kami</span>
               <h3 className="text-2xl font-black text-foreground mb-4">Masa Depan Hijau & Digital</h3>
               <p className="text-lg font-medium text-foreground/90 leading-relaxed italic">
-                "Menjadi platform digital inovatif yang menghubungkan masyarakat dan UMKM dalam pengelolaan dan jual beli sampah daur ulang secara efisien serta bernilai ekonomi."
+                "Menjadi jembatan melalui platform digital yang menghubungkan masyarakat dan pelaku umkm daur ulang untuk mengubah sampah menjadi nilai."
               </p>
             </div>
 
@@ -210,8 +210,8 @@ export default function LandingPage() {
                   01
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Konektivitas & Keberlanjutan</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Menjembatani masyarakat dan UMKM dengan jaringan pengepul lokal melalui teknologi, guna mewujudkan Indonesia bersih dan berkelanjutan.</p>
+                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Konektivitas</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Menjembatani masyarakat dan pelaku UMKM daur ulang dengan jaringan pengepul lokal melalui teknologi.</p>
                 </div>
               </div>
 
@@ -220,8 +220,18 @@ export default function LandingPage() {
                   02
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Edukasi, Transparansi & Logistik</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Meningkatkan literasi, partisipasi, dan efisiensi rantai pasok daur ulang melalui edukasi, insentif digital, sistem logistik terintegrasi, serta transaksi harga transparan berbasis data real-time.</p>
+                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Edukasi dan Keterlibatan Masyarakat</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Meningkatkan kesadaran dan keikut sertaan masyarakat dalam pegelolaan limbah bernilai ekonomi</p>
+                </div>
+              </div>
+
+              <div className="bg-card hover:bg-muted/50 p-6 rounded-2xl border shadow-sm flex items-start gap-5 hover:-translate-y-1 transition-all duration-300">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary font-bold text-xl">
+                  03
+                </div>
+                <div>
+                  <h4 className="font-extrabold text-lg mb-1.5 text-foreground">Harga Transparan dan Logistik Mudah</h4>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Mewujudkan transparansi harga dan kemudahan logistik dalam pasok sampah daur ulang.</p>
                 </div>
               </div>
             </div>
