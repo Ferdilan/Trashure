@@ -1,9 +1,6 @@
 import { Response } from 'express';
 import prisma from '../config/database';
 import { AuthRequest } from '../middlewares/auth.middleware';
-import { getIo } from '../config/socket';
-import { sendWhatsAppMessage } from '../services/whatsapp.service';
-
 export const createOffer = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const user = req.user;
@@ -65,29 +62,9 @@ export const createOffer = async (req: AuthRequest, res: Response): Promise<void
         }
       });
 
-      // Notify Pemilik via Socket
-      const io = getIo();
-      io.to(listing.userId).emit('notification', {
-        title: 'Pembelian Langsung',
-        body: `${dbUser.name} menyetujui Beli Langsung untuk ${listing.title} seharga Rp ${finalPrice}/kg!`,
-        type: 'TRANSACTION_UPDATED'
-      });
-
-      // Notify Pemilik via WhatsApp
-      if (listing.user.phoneNumber) {
-        await sendWhatsAppMessage(
-          listing.user.phoneNumber,
-          `*[Trashure]* Deal Langsung! Pengepul ${dbUser.name} telah menyetujui harga Beli Langsung untuk "${listing.title}" Anda seharga *Rp ${finalPrice}/kg*.\nSilakan hubungi Pengepul untuk berkoordinasi mengenai penjemputan.`
-        );
-      }
-
-      // Notify Pengepul via WhatsApp
-      if (dbUser.phoneNumber) {
-        await sendWhatsAppMessage(
-          dbUser.phoneNumber,
-          `*[Trashure]* Pembelian Langsung Berhasil! Anda telah mengambil "${listing.title}" seharga *Rp ${finalPrice}/kg*.\nSilakan hubungi pemilik untuk mulai menjadwalkan penjemputan.`
-        );
-      }
+      // Notify Pemilik via Socket (Removed)
+      // Notify Pemilik via WhatsApp (Removed)
+      // Notify Pengepul via WhatsApp (Removed)
 
       res.status(201).json({ status: 'success', data: offer });
       return;
@@ -105,21 +82,7 @@ export const createOffer = async (req: AuthRequest, res: Response): Promise<void
       include: { listing: { include: { user: true } }, pengepul: true }
     });
 
-    // Notify Pemilik via Socket
-    const io = getIo();
-    io.to(offer.listing.userId).emit('notification', {
-      title: 'Penawaran Baru',
-      body: `Pengepul menawar ${offer.listing.title} seharga Rp ${pricePerKg}/kg`,
-      type: 'OFFER_CREATED'
-    });
-
-    // Notify Pemilik via WhatsApp
-    if (offer.listing.user.phoneNumber) {
-      await sendWhatsAppMessage(
-        offer.listing.user.phoneNumber, 
-        `*[Trashure]* Halo ${offer.listing.user.name}!\nAda penawaran baru masuk untuk sampah "${offer.listing.title}" Anda dari ${offer.pengepul.name} senilai *Rp ${pricePerKg}/kg*.\nSilakan buka aplikasi Trashure untuk menerima atau menolaknya.`
-      );
-    }
+    // Notifications (Removed for Serverless)
 
     res.status(201).json({ status: 'success', data: offer });
   } catch (error) {
@@ -174,22 +137,7 @@ export const updateOfferStatus = async (req: AuthRequest, res: Response): Promis
       });
     }
 
-    // Notify Pengepul via Socket
-    const io = getIo();
-    io.to(offer.pengepulId).emit('notification', {
-      title: `Penawaran ${status}`,
-      body: `Penawaran Anda untuk ${offer.listing.title} telah ${status.toLowerCase()}.`,
-      type: 'OFFER_UPDATED'
-    });
-
-    // Notify Pengepul via WhatsApp
-    if (offer.pengepul.phoneNumber) {
-      const waMessage = status === 'DITERIMA' 
-        ? `*[Trashure]* Selamat ${offer.pengepul.name}!\nPenawaran Anda untuk "${offer.listing.title}" telah *DITERIMA* oleh pemilik.\nSilakan buka aplikasi untuk melihat nomor kontak pemilik dan menyepakati jadwal penjemputan.`
-        : `*[Trashure]* Halo ${offer.pengepul.name},\nMohon maaf, penawaran Anda untuk "${offer.listing.title}" telah *DITOLAK* oleh pemilik.`;
-      
-      await sendWhatsAppMessage(offer.pengepul.phoneNumber, waMessage);
-    }
+    // Notifications (Removed for Serverless)
 
     res.status(200).json({ status: 'success', data: updatedOffer });
   } catch (error) {

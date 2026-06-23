@@ -1,9 +1,6 @@
 import { Response } from 'express';
 import prisma from '../config/database';
 import { AuthRequest } from '../middlewares/auth.middleware';
-import { getIo } from '../config/socket';
-import { sendWhatsAppMessage } from '../services/whatsapp.service';
-
 export const getTransactions = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const user = req.user;
@@ -100,32 +97,7 @@ export const updateTransactionStatus = async (req: AuthRequest, res: Response): 
       }
     }
 
-    // Notify Pemilik via Socket
-    const io = getIo();
-    io.to(transaction.listing.userId).emit('notification', {
-      title: 'Status Pickup Berubah',
-      body: `Status penjemputan untuk ${transaction.listing.title} sekarang: ${status}`,
-      type: 'TRANSACTION_UPDATED'
-    });
-
-    // Notify Pemilik via WhatsApp
-    if (transaction.listing.user.phoneNumber) {
-      let waMessage = '';
-      if (status === 'TRANSIT') {
-        waMessage = `*[Trashure]* Bersiaplah ${transaction.listing.user.name}!\nPengepul (${transaction.pengepul.name}) sedang *ON THE WAY* menuju lokasi Anda untuk menjemput sampah "${transaction.listing.title}".`;
-      } else if (status === 'SELESAI') {
-        const grossAmount = parseFloat(totalPrice || '0');
-        const platformFee = grossAmount * 0.05;
-        const netAmount = grossAmount - platformFee;
-        waMessage = `*[Trashure]* Transaksi Selesai!\nSampah "${transaction.listing.title}" telah berhasil diangkut. Saldo Wallet Anda bertambah senilai *Rp ${netAmount}* (setelah dipotong biaya layanan 5%). Terima kasih telah menggunakan Trashure!`;
-      } else if (pickupDate) {
-        waMessage = `*[Trashure]* Update Jadwal!\nJadwal penjemputan untuk "${transaction.listing.title}" telah disetel pada *${new Date(pickupDate).toLocaleString('id-ID')}*.`;
-      }
-
-      if (waMessage) {
-        await sendWhatsAppMessage(transaction.listing.user.phoneNumber, waMessage);
-      }
-    }
+    // Notifications (Removed for Serverless)
 
     res.status(200).json({ status: 'success', data: transaction });
   } catch (error) {

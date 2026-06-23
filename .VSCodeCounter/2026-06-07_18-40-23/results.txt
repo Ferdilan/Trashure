@@ -1,0 +1,199 @@
+Date : 2026-06-07 18:40:23
+Directory : c:\Users\LENOVO\trashure
+Total : 106 files,  19997 codes, 292 comments, 893 blanks, all 21182 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          8 |     13,902 |          4 |         10 |     13,916 |
+| TypeScript JSX     |         23 |      3,660 |        106 |        392 |      4,158 |
+| TypeScript         |         33 |      1,177 |         80 |        267 |      1,524 |
+| XML                |         15 |        350 |          7 |         19 |        376 |
+| PostCSS            |          2 |        282 |          2 |         32 |        316 |
+| JavaScript         |          6 |        165 |         19 |         48 |        232 |
+| Markdown           |          2 |        136 |          0 |         28 |        164 |
+| Groovy             |          6 |        115 |          8 |         25 |        148 |
+| YAML               |          2 |         72 |          3 |         19 |         94 |
+| Batch              |          1 |         41 |         32 |         22 |         95 |
+| HTML               |          1 |         39 |          5 |          8 |         52 |
+| Java               |          3 |         27 |         11 |         14 |         52 |
+| JSON with Comments |          2 |         22 |          0 |          2 |         24 |
+| Properties         |          2 |          9 |         15 |          7 |         31 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                        | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                           |        106 |     19,997 |        292 |        893 |     21,182 |
+| . (Files)                                                                                                                   |          2 |        126 |          6 |         28 |        160 |
+| .github                                                                                                                     |          2 |         72 |          3 |         19 |         94 |
+| .github\workflows                                                                                                           |          2 |         72 |          3 |         19 |         94 |
+| backend                                                                                                                     |         33 |      6,473 |         78 |        264 |      6,815 |
+| backend (Files)                                                                                                             |          6 |      5,381 |          2 |         18 |      5,401 |
+| backend\src                                                                                                                 |         27 |      1,092 |         76 |        246 |      1,414 |
+| backend\src (Files)                                                                                                         |          2 |         40 |          5 |         15 |         60 |
+| backend\src\config                                                                                                          |          3 |         78 |          9 |         25 |        112 |
+| backend\src\controllers                                                                                                     |          9 |        824 |         50 |        147 |      1,021 |
+| backend\src\middlewares                                                                                                     |          2 |         25 |          3 |          8 |         36 |
+| backend\src\routes                                                                                                          |          9 |         79 |          1 |         36 |        116 |
+| backend\src\services                                                                                                        |          2 |         46 |          8 |         15 |         69 |
+| frontend-vite                                                                                                               |         69 |     13,326 |        205 |        582 |     14,113 |
+| frontend-vite (Files)                                                                                                       |         14 |      8,796 |         22 |         66 |      8,884 |
+| frontend-vite\android                                                                                                       |         23 |        525 |         69 |         81 |        675 |
+| frontend-vite\android (Files)                                                                                               |          6 |         85 |         51 |         37 |        173 |
+| frontend-vite\android\app                                                                                                   |         16 |        433 |         18 |         43 |        494 |
+| frontend-vite\android\app (Files)                                                                                           |          2 |         73 |          4 |         16 |         93 |
+| frontend-vite\android\app\release                                                                                           |          1 |         37 |          0 |          0 |         37 |
+| frontend-vite\android\app\src                                                                                               |         13 |        323 |         14 |         27 |        364 |
+| frontend-vite\android\app\src\androidTest                                                                                   |          1 |         15 |          6 |          6 |         27 |
+| frontend-vite\android\app\src\androidTest\java                                                                              |          1 |         15 |          6 |          6 |         27 |
+| frontend-vite\android\app\src\androidTest\java\com                                                                          |          1 |         15 |          6 |          6 |         27 |
+| frontend-vite\android\app\src\androidTest\java\com\getcapacitor                                                             |          1 |         15 |          6 |          6 |         27 |
+| frontend-vite\android\app\src\androidTest\java\com\getcapacitor\myapp                                                       |          1 |         15 |          6 |          6 |         27 |
+| frontend-vite\android\app\src\main                                                                                          |         11 |        299 |          3 |         16 |        318 |
+| frontend-vite\android\app\src\main (Files)                                                                                  |          1 |         31 |          1 |          4 |         36 |
+| frontend-vite\android\app\src\main\java                                                                                     |          1 |          3 |          0 |          3 |          6 |
+| frontend-vite\android\app\src\main\java\com                                                                                 |          1 |          3 |          0 |          3 |          6 |
+| frontend-vite\android\app\src\main\java\com\trashure                                                                        |          1 |          3 |          0 |          3 |          6 |
+| frontend-vite\android\app\src\main\java\com\trashure\app                                                                    |          1 |          3 |          0 |          3 |          6 |
+| frontend-vite\android\app\src\main\res                                                                                      |          9 |        265 |          2 |          9 |        276 |
+| frontend-vite\android\app\src\main\res\drawable                                                                             |          1 |        170 |          0 |          1 |        171 |
+| frontend-vite\android\app\src\main\res\drawable-v24                                                                         |          1 |         34 |          0 |          1 |         35 |
+| frontend-vite\android\app\src\main\res\layout                                                                               |          1 |         11 |          0 |          2 |         13 |
+| frontend-vite\android\app\src\main\res\mipmap-anydpi-v26                                                                    |          2 |         18 |          0 |          0 |         18 |
+| frontend-vite\android\app\src\main\res\values                                                                               |          3 |         27 |          2 |          5 |         34 |
+| frontend-vite\android\app\src\main\res\xml                                                                                  |          1 |          5 |          0 |          0 |          5 |
+| frontend-vite\android\app\src\test                                                                                          |          1 |          9 |          5 |          5 |         19 |
+| frontend-vite\android\app\src\test\java                                                                                     |          1 |          9 |          5 |          5 |         19 |
+| frontend-vite\android\app\src\test\java\com                                                                                 |          1 |          9 |          5 |          5 |         19 |
+| frontend-vite\android\app\src\test\java\com\getcapacitor                                                                    |          1 |          9 |          5 |          5 |         19 |
+| frontend-vite\android\app\src\test\java\com\getcapacitor\myapp                                                              |          1 |          9 |          5 |          5 |         19 |
+| frontend-vite\android\gradle                                                                                                |          1 |          7 |          0 |          1 |          8 |
+| frontend-vite\android\gradle\wrapper                                                                                        |          1 |          7 |          0 |          1 |          8 |
+| frontend-vite\public                                                                                                        |          3 |         52 |          4 |          5 |         61 |
+| frontend-vite\src                                                                                                           |         29 |      3,953 |        110 |        430 |      4,493 |
+| frontend-vite\src (Files)                                                                                                   |          4 |        375 |         13 |         51 |        439 |
+| frontend-vite\src\assets                                                                                                    |          2 |          2 |          0 |          1 |          3 |
+| frontend-vite\src\components                                                                                                |          5 |        290 |         13 |         41 |        344 |
+| frontend-vite\src\components (Files)                                                                                        |          3 |        209 |         12 |         28 |        249 |
+| frontend-vite\src\components\ui                                                                                             |          2 |         81 |          1 |         13 |         95 |
+| frontend-vite\src\lib                                                                                                       |          2 |          9 |          2 |          5 |         16 |
+| frontend-vite\src\lib (Files)                                                                                               |          1 |          5 |          0 |          2 |          7 |
+| frontend-vite\src\lib\supabase                                                                                              |          1 |          4 |          2 |          3 |          9 |
+| frontend-vite\src\pages                                                                                                     |         16 |      3,277 |         82 |        332 |      3,691 |
++-----------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                    | language           | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\LENOVO\trashure\.github\workflows\development.yml                                                                  | YAML               |         34 |          0 |          9 |         43 |
+| c:\Users\LENOVO\trashure\.github\workflows\production.yml                                                                   | YAML               |         38 |          3 |         10 |         51 |
+| c:\Users\LENOVO\trashure\backend\fix-categories.ts                                                                          | TypeScript         |         34 |          0 |          5 |         39 |
+| c:\Users\LENOVO\trashure\backend\package-lock.json                                                                          | JSON               |      5,254 |          0 |          1 |      5,255 |
+| c:\Users\LENOVO\trashure\backend\package.json                                                                               | JSON               |         38 |          0 |          0 |         38 |
+| c:\Users\LENOVO\trashure\backend\promote-admin.ts                                                                           | TypeScript         |         23 |          1 |          6 |         30 |
+| c:\Users\LENOVO\trashure\backend\src\app.ts                                                                                 | TypeScript         |         29 |          4 |          9 |         42 |
+| c:\Users\LENOVO\trashure\backend\src\config\database.ts                                                                     | TypeScript         |          3 |          0 |          3 |          6 |
+| c:\Users\LENOVO\trashure\backend\src\config\socket.ts                                                                       | TypeScript         |         66 |          7 |         17 |         90 |
+| c:\Users\LENOVO\trashure\backend\src\config\supabase.ts                                                                     | TypeScript         |          9 |          2 |          5 |         16 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\admin.controller.ts                                                        | TypeScript         |         69 |          2 |         13 |         84 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\category.controller.ts                                                     | TypeScript         |         11 |          0 |          2 |         13 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\chat.controller.ts                                                         | TypeScript         |         40 |          2 |          9 |         51 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\index.ts                                                                   | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\listing.controller.ts                                                      | TypeScript         |        157 |          8 |         27 |        192 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\message.controller.ts                                                      | TypeScript         |         19 |          0 |          4 |         23 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\offer.controller.ts                                                        | TypeScript         |        155 |         14 |         31 |        200 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\transaction.controller.ts                                                  | TypeScript         |        153 |         11 |         26 |        190 |
+| c:\Users\LENOVO\trashure\backend\src\controllers\user.controller.ts                                                         | TypeScript         |        220 |         12 |         34 |        266 |
+| c:\Users\LENOVO\trashure\backend\src\middlewares\auth.middleware.ts                                                         | TypeScript         |         25 |          2 |          7 |         34 |
+| c:\Users\LENOVO\trashure\backend\src\middlewares\index.ts                                                                   | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Users\LENOVO\trashure\backend\src\routes\admin.routes.ts                                                                 | TypeScript         |          8 |          0 |          4 |         12 |
+| c:\Users\LENOVO\trashure\backend\src\routes\category.routes.ts                                                              | TypeScript         |          6 |          0 |          4 |         10 |
+| c:\Users\LENOVO\trashure\backend\src\routes\chat.routes.ts                                                                  | TypeScript         |          6 |          0 |          4 |         10 |
+| c:\Users\LENOVO\trashure\backend\src\routes\index.ts                                                                        | TypeScript         |         19 |          0 |          4 |         23 |
+| c:\Users\LENOVO\trashure\backend\src\routes\listing.routes.ts                                                               | TypeScript         |          9 |          0 |          4 |         13 |
+| c:\Users\LENOVO\trashure\backend\src\routes\message.routes.ts                                                               | TypeScript         |          6 |          0 |          4 |         10 |
+| c:\Users\LENOVO\trashure\backend\src\routes\offer.routes.ts                                                                 | TypeScript         |          7 |          0 |          4 |         11 |
+| c:\Users\LENOVO\trashure\backend\src\routes\transaction.routes.ts                                                           | TypeScript         |          8 |          0 |          4 |         12 |
+| c:\Users\LENOVO\trashure\backend\src\routes\user.routes.ts                                                                  | TypeScript         |         10 |          1 |          4 |         15 |
+| c:\Users\LENOVO\trashure\backend\src\server.ts                                                                              | TypeScript         |         11 |          1 |          6 |         18 |
+| c:\Users\LENOVO\trashure\backend\src\services\index.ts                                                                      | TypeScript         |          0 |          1 |          1 |          2 |
+| c:\Users\LENOVO\trashure\backend\src\services\whatsapp.service.ts                                                           | TypeScript         |         46 |          7 |         14 |         67 |
+| c:\Users\LENOVO\trashure\backend\test-prisma.js                                                                             | JavaScript         |         17 |          1 |          5 |         23 |
+| c:\Users\LENOVO\trashure\backend\tsconfig.json                                                                              | JSON with Comments |         15 |          0 |          1 |         16 |
+| c:\Users\LENOVO\trashure\frontend-vite\README.md                                                                            | Markdown           |         60 |          0 |         14 |         74 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\build.gradle                                                             | Groovy             |         61 |          3 |          9 |         73 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\capacitor.build.gradle                                                   | Groovy             |         12 |          1 |          7 |         20 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\release\output-metadata.json                                             | JSON               |         37 |          0 |          0 |         37 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\androidTest\java\com\getcapacitor\myapp\ExampleInstrumentedTest.java | Java               |         15 |          6 |          6 |         27 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\AndroidManifest.xml                                             | XML                |         31 |          1 |          4 |         36 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\java\com\trashure\app\MainActivity.java                         | Java               |          3 |          0 |          3 |          6 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\drawable-v24\ic_launcher_foreground.xml                     | XML                |         34 |          0 |          1 |         35 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\drawable\ic_launcher_background.xml                         | XML                |        170 |          0 |          1 |        171 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\layout\activity_main.xml                                    | XML                |         11 |          0 |          2 |         13 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\mipmap-anydpi-v26\ic_launcher.xml                           | XML                |          9 |          0 |          0 |          9 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml                     | XML                |          9 |          0 |          0 |          9 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\values\ic_launcher_background.xml                           | XML                |          4 |          0 |          0 |          4 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\values\strings.xml                                          | XML                |          7 |          0 |          1 |          8 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\values\styles.xml                                           | XML                |         16 |          2 |          4 |         22 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\main\res\xml\file_paths.xml                                          | XML                |          5 |          0 |          0 |          5 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\app\src\test\java\com\getcapacitor\myapp\ExampleUnitTest.java                | Java               |          9 |          5 |          5 |         19 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\build.gradle                                                                 | Groovy             |         20 |          3 |          7 |         30 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\capacitor.settings.gradle                                                    | Groovy             |          2 |          1 |          1 |          4 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\gradle.properties                                                            | Properties         |          2 |         15 |          6 |         23 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\gradle\wrapper\gradle-wrapper.properties                                     | Properties         |          7 |          0 |          1 |          8 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\gradlew.bat                                                                  | Batch              |         41 |         32 |         22 |         95 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\settings.gradle                                                              | Groovy             |          4 |          0 |          1 |          5 |
+| c:\Users\LENOVO\trashure\frontend-vite\android\variables.gradle                                                             | Groovy             |         16 |          0 |          0 |         16 |
+| c:\Users\LENOVO\trashure\frontend-vite\capacitor.config.ts                                                                  | TypeScript         |          7 |          0 |          3 |         10 |
+| c:\Users\LENOVO\trashure\frontend-vite\eslint.config.js                                                                     | JavaScript         |         21 |          0 |          2 |         23 |
+| c:\Users\LENOVO\trashure\frontend-vite\fix.cjs                                                                              | JavaScript         |         23 |          4 |          9 |         36 |
+| c:\Users\LENOVO\trashure\frontend-vite\index.html                                                                           | HTML               |         39 |          5 |          8 |         52 |
+| c:\Users\LENOVO\trashure\frontend-vite\package-lock.json                                                                    | JSON               |      8,473 |          0 |          1 |      8,474 |
+| c:\Users\LENOVO\trashure\frontend-vite\package.json                                                                         | JSON               |         48 |          0 |          1 |         49 |
+| c:\Users\LENOVO\trashure\frontend-vite\public\favicon.svg                                                                   | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\LENOVO\trashure\frontend-vite\public\icons.svg                                                                     | XML                |         24 |          0 |          1 |         25 |
+| c:\Users\LENOVO\trashure\frontend-vite\public\sitemap.xml                                                                   | XML                |         27 |          4 |          4 |         35 |
+| c:\Users\LENOVO\trashure\frontend-vite\replace-api.cjs                                                                      | JavaScript         |         27 |          4 |          9 |         40 |
+| c:\Users\LENOVO\trashure\frontend-vite\replace-api.js                                                                       | JavaScript         |         27 |          4 |          9 |         40 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\App.css                                                                          | PostCSS            |        158 |          0 |         27 |        185 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\App.tsx                                                                          | TypeScript JSX     |         84 |         11 |         17 |        112 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\assets\react.svg                                                                 | XML                |          1 |          0 |          0 |          1 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\assets\vite.svg                                                                  | XML                |          1 |          0 |          1 |          2 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\components\AnimatedCounter.tsx                                                   | TypeScript JSX     |         35 |          1 |          8 |         44 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\components\DashboardLayout.tsx                                                   | TypeScript JSX     |        149 |         11 |         16 |        176 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\components\PageWrapper.tsx                                                       | TypeScript JSX     |         25 |          0 |          4 |         29 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\components\ui\button.tsx                                                         | TypeScript JSX     |         54 |          1 |          5 |         60 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\components\ui\card.tsx                                                           | TypeScript JSX     |         27 |          0 |          8 |         35 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\index.css                                                                        | PostCSS            |        124 |          2 |          5 |        131 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\lib\supabase\client.ts                                                           | TypeScript         |          4 |          2 |          3 |          9 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\lib\utils.ts                                                                     | TypeScript         |          5 |          0 |          2 |          7 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\main.tsx                                                                         | TypeScript JSX     |          9 |          0 |          2 |         11 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\AdminPage.tsx                                                              | TypeScript JSX     |         90 |          0 |         13 |        103 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\AdminUsersPage.tsx                                                         | TypeScript JSX     |        124 |          2 |         11 |        137 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardChattransactionIdDetailPage.tsx                                   | TypeScript JSX     |        124 |          5 |         21 |        150 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardFeedPage.tsx                                                      | TypeScript JSX     |        151 |          3 |         10 |        164 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardListingsNewPage.tsx                                               | TypeScript JSX     |        335 |          7 |         38 |        380 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardListingsPage.tsx                                                  | TypeScript JSX     |        169 |          7 |         15 |        191 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardListingsidDetailPage.tsx                                          | TypeScript JSX     |        691 |         11 |         59 |        761 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardPage.tsx                                                          | TypeScript JSX     |        156 |          2 |         17 |        175 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardPickupPage.tsx                                                    | TypeScript JSX     |        154 |          5 |         15 |        174 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardProfilePage.tsx                                                   | TypeScript JSX     |        304 |          7 |         21 |        332 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardTransactionsPage.tsx                                              | TypeScript JSX     |        183 |          2 |         14 |        199 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\DashboardWalletPage.tsx                                                    | TypeScript JSX     |        188 |          8 |         24 |        220 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\GuidePage.tsx                                                              | TypeScript JSX     |        114 |          5 |         16 |        135 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\LandingPage.tsx                                                            | TypeScript JSX     |        268 |         16 |         30 |        314 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\LoginPage.tsx                                                              | TypeScript JSX     |         78 |          0 |         11 |         89 |
+| c:\Users\LENOVO\trashure\frontend-vite\src\pages\RegisterPage.tsx                                                           | TypeScript JSX     |        148 |          2 |         17 |        167 |
+| c:\Users\LENOVO\trashure\frontend-vite\tsconfig.app.json                                                                    | JSON               |         24 |          2 |          3 |         29 |
+| c:\Users\LENOVO\trashure\frontend-vite\tsconfig.json                                                                        | JSON with Comments |          7 |          0 |          1 |          8 |
+| c:\Users\LENOVO\trashure\frontend-vite\tsconfig.node.json                                                                   | JSON               |         20 |          2 |          3 |         25 |
+| c:\Users\LENOVO\trashure\frontend-vite\vercel.json                                                                          | JSON               |          8 |          0 |          1 |          9 |
+| c:\Users\LENOVO\trashure\frontend-vite\vite.config.ts                                                                       | TypeScript         |         12 |          1 |          2 |         15 |
+| c:\Users\LENOVO\trashure\implementation_plan.md                                                                             | Markdown           |         76 |          0 |         14 |         90 |
+| c:\Users\LENOVO\trashure\migrate.js                                                                                         | JavaScript         |         50 |          6 |         14 |         70 |
+| Total                                                                                                                       |                    |     19,997 |        292 |        893 |     21,182 |
++-----------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

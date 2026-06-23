@@ -2,7 +2,6 @@
 import { useState, useEffect, useRef } from 'react';
 import {  useParams  } from 'react-router-dom';
 import { supabase } from '@/lib/supabase/client';
-import { io, Socket } from 'socket.io-client';
 import { Send, User as UserIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -25,8 +24,32 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [socket, setSocket] = useState<Socket | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isFetching = useRef(false);
+
+  const fetchMessages = async (sessionToken: string) => {
+    if (isFetching.current) return;
+    try {
+      isFetching.current = true;
+      const msgRes = await fetch(`${import.meta.env.VITE_API_URL}/api/chats/${transactionId}`, {
+        headers: { 'Authorization': `Bearer ${sessionToken}` }
+      });
+      const msgData = await msgRes.json();
+      if (msgData.status === 'success') {
+        // Only update state if length is different to avoid unnecessary re-renders
+        setMessages(prev => {
+          if (prev.length !== msgData.data.length) {
+             return msgData.data;
+          }
+          return prev;
+        });
+      }
+    } catch (e) {
+      console.error('Error fetching messages:', e);
+    } finally {
+      isFetching.current = false;
+    }
+  };
 
   const initChat = async () => {
     const { data: { session } } = await supabase.auth.getSession();
@@ -42,37 +65,32 @@ export default function ChatPage() {
         setUserProfile(profData.data);
       }
 
-      // Initialize Socket specifically for chat
-      const newSocket = io(import.meta.env.VITE_API_URL);
-      newSocket.on('connect', () => {
-        newSocket.emit('join', profData.data.id);
-      });
+      // Initial fetch
+      await fetchMessages(session.access_token);
 
-      newSocket.on('receive_message', (msg: ChatMessage) => {
-        if (msg.transactionId === transactionId) {
-          setMessages(prev => [...prev, msg]);
-        }
-      });
+      // Start HTTP Polling every 10 seconds
+      const intervalId = setInterval(() => {
+        fetchMessages(session.access_token);
+      }, 10000);
 
-      setSocket(newSocket);
-
-      // Fetch message history
-      const msgRes = await fetch(`${import.meta.env.VITE_API_URL}/api/chats/${transactionId}`, {
-        headers: { 'Authorization': `Bearer ${session.access_token}` }
-      });
-      const msgData = await msgRes.json();
-      if (msgData.status === 'success') {
-        setMessages(msgData.data);
-      }
-
+      return () => clearInterval(intervalId);
     } catch (e) {
       console.error(e);
     }
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    initChat();
+    let cleanupFunc: void | (() => void);
+    
+    initChat().then(cleanup => {
+      if (typeof cleanup === 'function') {
+        cleanupFunc = cleanup;
+      }
+    });
+
+    return () => {
+      if (cleanupFunc) cleanupFunc();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transactionId]);
 
@@ -80,17 +98,37 @@ export default function ChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = (e: React.FormEvent) => {
+  const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim() || !socket || !userProfile) return;
+    if (!newMessage.trim() || !userProfile) return;
 
-    socket.emit('send_message', {
-      transactionId,
-      senderId: userProfile.id,
-      content: newMessage.trim()
-    });
+    const content = newMessage.trim();
+    setNewMessage(''); // optimistic clear
 
-    setNewMessage('');
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/chats`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({
+          transactionId,
+          content
+        })
+      });
+
+      const data = await res.json();
+      if (data.status === 'success') {
+        // Optimistically add the message or wait for the next poll
+        setMessages(prev => [...prev, data.data]);
+      }
+    } catch (e) {
+      console.error('Error sending message:', e);
+    }
   };
 
   if (!userProfile) return <div>Memuat chat...</div>;

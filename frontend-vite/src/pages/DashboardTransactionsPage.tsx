@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Package, Calendar, Clock, ChevronRight, User } from 'lucide-react';
+import { RefreshCw, Package, Calendar, Clock, ChevronRight, User, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface TransactionData {
@@ -173,11 +173,18 @@ export default function TransactionsPage() {
                           <div className="text-sm font-medium">{tx.pengepul.name}</div>
                         </div>
                       </div>
-                      <Link to={`/dashboard/listings/${tx.listing.id}`}>
-                        <Button variant="ghost" size="sm" className="gap-1 text-primary">
-                          Detail Listing <ChevronRight className="h-4 w-4" />
-                        </Button>
-                      </Link>
+                      <div className="flex items-center gap-2">
+                        <Link to={`/dashboard/chat/${tx.id}`}>
+                          <Button variant="outline" size="sm" className="gap-1 border-primary text-primary hover:bg-primary hover:text-white transition-colors">
+                            <MessageCircle className="h-4 w-4" /> Chat
+                          </Button>
+                        </Link>
+                        <Link to={`/dashboard/listings/${tx.listing.id}`}>
+                          <Button variant="ghost" size="sm" className="gap-1 text-primary">
+                            Detail <ChevronRight className="h-4 w-4" />
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

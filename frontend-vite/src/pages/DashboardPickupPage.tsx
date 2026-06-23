@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase/client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MapPin, Phone, CheckCircle2, Navigation } from 'lucide-react';
+import { MapPin, Phone, CheckCircle2, Navigation, MessageCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function PickupManagementPage() {
   interface PickupData {
@@ -137,6 +138,11 @@ export default function PickupManagementPage() {
                 </div>
 
                 <div className="flex gap-3">
+                  <Link to={`/dashboard/chat/${pickup.id}`} className="flex-1">
+                    <Button variant="outline" className="w-full gap-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors">
+                      <MessageCircle className="h-4 w-4" /> Chat Pemilik
+                    </Button>
+                  </Link>
                   <Button variant="outline" className="flex-1 gap-2">
                     <Navigation className="h-4 w-4" /> Arahkan
                   </Button>
